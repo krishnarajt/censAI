@@ -1,3 +1,4 @@
+import os
 import pathlib
 
 from enums.CensorshipStrength import CensorshipStrength
@@ -12,6 +13,21 @@ class Config:
     SUBTITLE_EXTENSIONS = [".srt", ".ass", ".vtt", ".sub", ".idx"]
     NUMBER_OF_IMAGES_PER_SCENE = 7
 
+    # Tunable models -- override via environment variable.
+    # Defaults are chosen for a 4060Ti 8GB / 32GB DDR5 box.
+    VISION_MODEL = os.environ.get("CENSAI_VISION_MODEL", "qwen3-vl:4b")
+    PROFANITY_MODEL = os.environ.get("CENSAI_PROFANITY_MODEL", "mistral")
+    _OLLAMA_HOST_RAW = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+
+    # NudeNet thresholds. Tuned to reduce false positives while still
+    # catching anything genuinely explicit.
+    NUDENET_STRONG_THRESHOLD = 0.40
+    NUDENET_SOFT_THRESHOLD = 0.75
+
+    # Vision sampling per scene. Phash dedup means actual LLM calls are
+    # fewer than this for visually static scenes.
+    MAX_VISION_FRAMES_PER_SCENE = 5
+
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
@@ -25,9 +41,9 @@ class Config:
             self._censorship_strength = None
             self.muted_audio_root_path = None
             self.video_and_subtitle_files = {}
-            self.subtitles_processed_video_ids = []
             self.video_to_id = {}
             self.id_to_video = {}
+            self.db_path = None
 
     @property
     def media_folder_path(self):
@@ -46,6 +62,7 @@ class Config:
         self.muted_audio_root_path = self._temp_folder_path / "muted_audio"
         self._temp_folder_path.mkdir(parents=True, exist_ok=True)
         self.muted_audio_root_path.mkdir(parents=True, exist_ok=True)
+        self.db_path = self._temp_folder_path / "censai.sqlite"
 
     @property
     def temp_path(self):
@@ -67,6 +84,19 @@ class Config:
             raise ValueError("Censorship strength must be a CensorshipStrength Enum value.")
         self._censorship_strength = strength
 
+    @property
+    def is_strict(self) -> bool:
+        return self._censorship_strength == CensorshipStrength.STRICT
+
+    @property
+    def ollama_host(self) -> str:
+        host = self._OLLAMA_HOST_RAW
+        if host == "0.0.0.0" or host.startswith("0.0.0.0"):
+            host = "http://localhost:11434"
+        elif not host.startswith("http"):
+            host = f"http://{host}"
+        return host
+
     def cleanup_temp_folder(self, video_id):
         temp_folder = self._temp_folder_path / str(video_id)
         if temp_folder.exists() and temp_folder.is_dir():
@@ -74,8 +104,3 @@ class Config:
                 if item.is_file():
                     item.unlink()
             temp_folder.rmdir()
-
-    def save_checkpoint(self):
-        from data.dataframe_manager import ScenesDataFrameManager
-
-        ScenesDataFrameManager().save_checkpoint()

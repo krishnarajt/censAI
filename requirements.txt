@@ -1,4 +1,5 @@
 ffsubsync>=0.4.29
+imagehash>=4.3.2
 nudenet>=3.4.2
 ollama>=0.5.1
 opencv-python>=4.11.0.86

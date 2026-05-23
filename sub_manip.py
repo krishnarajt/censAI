@@ -6,15 +6,16 @@ from pathlib import Path
 
 import profanity as pf
 import pysrt
-from config.settings import Config
-from data.dataframe_manager import ScenesDataFrameManager
-from enums.SceneCols import SceneCols
 from rapidfuzz import fuzz, process
 from safetext import SafeText
 from tqdm import tqdm
 
+import util
+from config.settings import Config
+from db.store import Store
+
 config = Config()
-df_manager = ScenesDataFrameManager()
+store = Store()
 
 
 def custom_scorer(choice, query, **kwargs):
@@ -28,7 +29,11 @@ def custom_scorer(choice, query, **kwargs):
 
 def find_subtitles(path):
     return sorted(
-        (sub for sub in pathlib.Path(path).rglob("*") if sub.suffix.lower() in config.SUBTITLE_EXTENSIONS),
+        (
+            sub
+            for sub in pathlib.Path(path).rglob("*")
+            if sub.suffix.lower() in config.SUBTITLE_EXTENSIONS
+        ),
         key=lambda p: str(p).lower(),
     )
 
@@ -44,7 +49,9 @@ def match_video_and_subtitles(videos, subtitles):
     subtitle_names = [sub.name for sub in subtitles]
     media_files = {}
     for video in videos:
-        best_match, _score, _ = process.extractOne(video.name, subtitle_names, scorer=custom_scorer)
+        best_match, _score, _ = process.extractOne(
+            video.name, subtitle_names, scorer=custom_scorer
+        )
         subtitle = next((s for s in subtitles if s.name == best_match), None)
         media_files[config.video_to_id[video]] = subtitle
         subtitle_names.remove(best_match)
@@ -90,18 +97,13 @@ def align_subtitles(video_id, subtitle_path):
 def clean_subtitles(video_id, subtitle_path):
     if subtitle_path is None:
         logging.info("No subtitle file for video %s. Skipping subtitle cleanup.", video_id)
-        if video_id not in config.subtitles_processed_video_ids:
-            config.subtitles_processed_video_ids.append(video_id)
         return
 
-    existing_rows = df_manager.all_scenes_df[
-        (df_manager.all_scenes_df["video_id"] == video_id)
-        & (df_manager.all_scenes_df["subtitle"].notna())
-    ]
-    if video_id in config.subtitles_processed_video_ids or not existing_rows.empty:
-        logging.info("Skipping video %s subtitle processing as they have already been processed.", video_id)
-        if video_id not in config.subtitles_processed_video_ids:
-            config.subtitles_processed_video_ids.append(video_id)
+    if store.has_subtitles(video_id):
+        logging.info(
+            "Subtitles for video %s already loaded into the DB. Skipping re-parse.",
+            video_id,
+        )
         return
 
     st = SafeText(language="en")
@@ -109,39 +111,24 @@ def clean_subtitles(video_id, subtitle_path):
 
     try:
         for sub in tqdm(subs, desc="Cleaning subtitles", unit="sub"):
-            profane = st.check_profanity(sub.text)
-            df_manager.all_scenes_df.loc[len(df_manager.all_scenes_df)] = {
-                str(SceneCols.TIMESTAMP): sub.start.ordinal,
-                str(SceneCols.SUBTITLE_START_TIME): sub.start.ordinal,
-                str(SceneCols.SUBTITLE_END_TIME): sub.end.ordinal,
-                str(SceneCols.VIDEO_ID): video_id,
-                str(SceneCols.SCENE_NUMBER): None,
-                str(SceneCols.SCENE_SNAPSHOT_NUMBER): None,
-                str(SceneCols.SCENE_SNAPSHOT_PATH): None,
-                str(SceneCols.SUBTITLE): sub.text,
-                str(SceneCols.CLEANED_SUBTITLE): pf.clean_text(sub.text) if profane else None,
-                str(SceneCols.SNAPSHOT_DESC): None,
-                str(SceneCols.DETECTOR_LABELS): None,
-                str(SceneCols.DETECTOR_MAX_SCORE): None,
-                str(SceneCols.DETECTOR_RAW): None,
-                str(SceneCols.FRAME_ROLE): None,
-                str(SceneCols.VISIBLE_NUDITY): None,
-                str(SceneCols.EXPLICIT_EXPOSURE): None,
-                str(SceneCols.SEXUAL_ACTIVITY): None,
-                str(SceneCols.VISION_CONFIDENCE): None,
-                str(SceneCols.VISION_REASON): None,
-                str(SceneCols.VISION_RAW): None,
-                str(SceneCols.PROFANITY_PRESENT): bool(profane),
-                str(SceneCols.NUDITY_PRESENT): None,
-                str(SceneCols.SHOULD_CENSOR): None,
-            }
+            text = (sub.text or "").strip()
+            if not text:
+                continue
+            text_hash = util.sha256_text(text)
+            profane = bool(st.check_profanity(text))
+            cleaned = pf.clean_text_cached(text, text_hash) if profane else None
+            store.insert_subtitle(
+                video_id=video_id,
+                start_ms=sub.start.ordinal,
+                end_ms=sub.end.ordinal,
+                text=text,
+                text_hash=text_hash,
+                cleaned_text=cleaned,
+                profanity_present=profane,
+            )
     except KeyboardInterrupt:
-        print("\nKeyboard interrupt detected. Saving checkpoint before exiting...")
-        config.save_checkpoint()
+        print("\nKeyboard interrupt detected. Subtitle progress is already persisted.")
         raise
-
-    config.subtitles_processed_video_ids.append(video_id)
-    config.save_checkpoint()
 
 
 def write_censored_subtitles(video_id, source_subtitle_path, output_subtitle_path):
@@ -150,28 +137,25 @@ def write_censored_subtitles(video_id, source_subtitle_path, output_subtitle_pat
         return
 
     subs = pysrt.open(str(source_subtitle_path))
-    subtitle_rows = df_manager.all_scenes_df[
-        (df_manager.all_scenes_df["video_id"] == video_id)
-        & (df_manager.all_scenes_df["subtitle"].notna())
-    ].copy()
-
-    if subtitle_rows.empty:
+    rows = store.get_subtitles(video_id)
+    if not rows:
         logging.warning("No subtitle rows found for video %s. Skipping subtitle output.", video_id)
         return
 
-    rows_by_start = {
-        int(row["subtitle_start_time"]): row
-        for _, row in subtitle_rows.iterrows()
-    }
+    rows_by_start = {int(r["start_ms"]): r for r in rows}
+    censored_scenes = set(store.get_censored_scene_numbers(video_id))
 
     for sub in subs:
         row = rows_by_start.get(sub.start.ordinal)
         if row is None:
             continue
-        if row.get("should_censor") is True:
+        scene_number = row["scene_number"]
+        if scene_number is not None and int(scene_number) in censored_scenes:
             sub.text = "[scene censored]"
-        elif isinstance(row.get("cleaned_subtitle"), str) and row["cleaned_subtitle"].strip():
-            sub.text = row["cleaned_subtitle"]
+            continue
+        cleaned = row["cleaned_text"]
+        if isinstance(cleaned, str) and cleaned.strip():
+            sub.text = cleaned
 
     Path(output_subtitle_path).parent.mkdir(parents=True, exist_ok=True)
     subs.save(str(output_subtitle_path), encoding="utf-8")

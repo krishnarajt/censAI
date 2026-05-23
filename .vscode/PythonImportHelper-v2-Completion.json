@@ -17,6 +17,30 @@
         "documentation": {}
     },
     {
+        "label": "absolute_import",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "division",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "print_function",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -44,11 +68,92 @@
         "documentation": {}
     },
     {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "imagehash",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "imagehash",
+        "description": "imagehash",
+        "detail": "imagehash",
+        "documentation": {}
+    },
+    {
         "label": "pathlib",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "pathlib",
         "description": "pathlib",
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
         "detail": "pathlib",
         "documentation": {}
     },
@@ -206,27 +311,54 @@
         "documentation": {}
     },
     {
-        "label": "SceneCols",
-        "importPath": "enums.SceneCols",
-        "description": "enums.SceneCols",
-        "isExtraImport": true,
-        "detail": "enums.SceneCols",
-        "documentation": {}
-    },
-    {
-        "label": "SceneCols",
-        "importPath": "enums.SceneCols",
-        "description": "enums.SceneCols",
-        "isExtraImport": true,
-        "detail": "enums.SceneCols",
-        "documentation": {}
-    },
-    {
         "label": "SceneImageCols",
         "importPath": "enums.SceneImageCols",
         "description": "enums.SceneImageCols",
         "isExtraImport": true,
         "detail": "enums.SceneImageCols",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "threading",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "threading",
+        "description": "threading",
+        "detail": "threading",
+        "documentation": {}
+    },
+    {
+        "label": "Semaphore",
+        "importPath": "threading",
+        "description": "threading",
+        "isExtraImport": true,
+        "detail": "threading",
+        "documentation": {}
+    },
+    {
+        "label": "Semaphore",
+        "importPath": "threading",
+        "description": "threading",
+        "isExtraImport": true,
+        "detail": "threading",
         "documentation": {}
     },
     {
@@ -727,55 +859,6 @@
         "documentation": {}
     },
     {
-        "label": "Image",
-        "importPath": "PIL",
-        "description": "PIL",
-        "isExtraImport": true,
-        "detail": "PIL",
-        "documentation": {}
-    },
-    {
-        "label": "Image",
-        "importPath": "PIL",
-        "description": "PIL",
-        "isExtraImport": true,
-        "detail": "PIL",
-        "documentation": {}
-    },
-    {
-        "label": "Image",
-        "importPath": "PIL",
-        "description": "PIL",
-        "isExtraImport": true,
-        "detail": "PIL",
-        "documentation": {}
-    },
-    {
-        "label": "Image",
-        "importPath": "PIL",
-        "description": "PIL",
-        "isExtraImport": true,
-        "detail": "PIL",
-        "documentation": {}
-    },
-    {
-        "label": "Image",
-        "importPath": "PIL",
-        "description": "PIL",
-        "isExtraImport": true,
-        "detail": "PIL",
-        "documentation": {}
-    },
-    {
-        "label": "imagehash",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "imagehash",
-        "description": "imagehash",
-        "detail": "imagehash",
-        "documentation": {}
-    },
-    {
         "label": "shutil",
         "kind": 6,
         "isExtraImport": true,
@@ -858,19 +941,11 @@
         "documentation": {}
     },
     {
-        "label": "ThreadPoolExecutor",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
+        "label": "tqdm",
+        "importPath": "tqdm",
+        "description": "tqdm",
         "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "as_completed",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
+        "detail": "tqdm",
         "documentation": {}
     },
     {
@@ -906,19 +981,19 @@
         "documentation": {}
     },
     {
-        "label": "Semaphore",
-        "importPath": "threading",
-        "description": "threading",
+        "label": "ThreadPoolExecutor",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
         "isExtraImport": true,
-        "detail": "threading",
+        "detail": "concurrent.futures",
         "documentation": {}
     },
     {
-        "label": "Semaphore",
-        "importPath": "threading",
-        "description": "threading",
+        "label": "as_completed",
+        "importPath": "concurrent.futures",
+        "description": "concurrent.futures",
         "isExtraImport": true,
-        "detail": "threading",
+        "detail": "concurrent.futures",
         "documentation": {}
     },
     {
@@ -994,51 +1069,43 @@
         "documentation": {}
     },
     {
-        "label": "ScenesDataFrameManager",
-        "importPath": "data.dataframe_manager",
-        "description": "data.dataframe_manager",
+        "label": "Store",
+        "importPath": "db.store",
+        "description": "db.store",
         "isExtraImport": true,
-        "detail": "data.dataframe_manager",
+        "detail": "db.store",
         "documentation": {}
     },
     {
-        "label": "ScenesDataFrameManager",
-        "importPath": "data.dataframe_manager",
-        "description": "data.dataframe_manager",
+        "label": "Store",
+        "importPath": "db.store",
+        "description": "db.store",
         "isExtraImport": true,
-        "detail": "data.dataframe_manager",
+        "detail": "db.store",
         "documentation": {}
     },
     {
-        "label": "ScenesDataFrameManager",
-        "importPath": "data.dataframe_manager",
-        "description": "data.dataframe_manager",
+        "label": "Store",
+        "importPath": "db.store",
+        "description": "db.store",
         "isExtraImport": true,
-        "detail": "data.dataframe_manager",
+        "detail": "db.store",
         "documentation": {}
     },
     {
-        "label": "ScenesDataFrameManager",
-        "importPath": "data.dataframe_manager",
-        "description": "data.dataframe_manager",
+        "label": "Store",
+        "importPath": "db.store",
+        "description": "db.store",
         "isExtraImport": true,
-        "detail": "data.dataframe_manager",
+        "detail": "db.store",
         "documentation": {}
     },
     {
-        "label": "ScenesDataFrameManager",
-        "importPath": "data.dataframe_manager",
-        "description": "data.dataframe_manager",
+        "label": "Store",
+        "importPath": "db.store",
+        "description": "db.store",
         "isExtraImport": true,
-        "detail": "data.dataframe_manager",
-        "documentation": {}
-    },
-    {
-        "label": "ScenesDataFrameManager",
-        "importPath": "data.dataframe_manager",
-        "description": "data.dataframe_manager",
-        "isExtraImport": true,
-        "detail": "data.dataframe_manager",
+        "detail": "db.store",
         "documentation": {}
     },
     {
@@ -1065,15 +1132,6 @@
         "importPath": "profanity",
         "description": "profanity",
         "detail": "profanity",
-        "documentation": {}
-    },
-    {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
         "documentation": {}
     },
     {
@@ -1141,6 +1199,15 @@
         "description": "safetext",
         "isExtraImport": true,
         "detail": "safetext",
+        "documentation": {}
+    },
+    {
+        "label": "hashlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hashlib",
+        "description": "hashlib",
+        "detail": "hashlib",
         "documentation": {}
     },
     {
@@ -1225,11 +1292,137 @@
         "documentation": {}
     },
     {
+        "label": "find_similar_images",
+        "kind": 2,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "def find_similar_images(userpaths, hashfunc=imagehash.average_hash):\n\tdef is_image(filename):\n\t\tf = filename.lower()\n\t\treturn f.endswith('.png') or f.endswith('.jpg') or \\\n\t\t\tf.endswith('.jpeg') or f.endswith('.bmp') or \\\n\t\t\tf.endswith('.gif') or '.jpg' in f or f.endswith('.svg')\n\timage_filenames = []\n\tfor userpath in userpaths:\n\t\timage_filenames += [os.path.join(userpath, path) for path in os.listdir(userpath) if is_image(path)]\n\timages = {}",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tf",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\tf = filename.lower()\n\t\treturn f.endswith('.png') or f.endswith('.jpg') or \\\n\t\t\tf.endswith('.jpeg') or f.endswith('.bmp') or \\\n\t\t\tf.endswith('.gif') or '.jpg' in f or f.endswith('.svg')\n\timage_filenames = []\n\tfor userpath in userpaths:\n\t\timage_filenames += [os.path.join(userpath, path) for path in os.listdir(userpath) if is_image(path)]\n\timages = {}\n\tfor img in sorted(image_filenames):\n\t\ttry:",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\timage_filenames",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\timage_filenames = []\n\tfor userpath in userpaths:\n\t\timage_filenames += [os.path.join(userpath, path) for path in os.listdir(userpath) if is_image(path)]\n\timages = {}\n\tfor img in sorted(image_filenames):\n\t\ttry:\n\t\t\thash = hashfunc(Image.open(img))\n\t\texcept Exception as e:\n\t\t\tprint('Problem:', e, 'with', img)\n\t\t\tcontinue",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\timages",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\timages = {}\n\tfor img in sorted(image_filenames):\n\t\ttry:\n\t\t\thash = hashfunc(Image.open(img))\n\t\texcept Exception as e:\n\t\t\tprint('Problem:', e, 'with', img)\n\t\t\tcontinue\n\t\tif hash in images:\n\t\t\tprint(img, '  already exists as', ' '.join(images[hash]))\n\t\t\tif 'dupPictures' in img:",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\t\thash",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\t\thash = hashfunc(Image.open(img))\n\t\texcept Exception as e:\n\t\t\tprint('Problem:', e, 'with', img)\n\t\t\tcontinue\n\t\tif hash in images:\n\t\t\tprint(img, '  already exists as', ' '.join(images[hash]))\n\t\t\tif 'dupPictures' in img:\n\t\t\t\tprint('rm -v', img)\n\t\timages[hash] = images.get(hash, []) + [img]\n\t# for k, img_list in six.iteritems(images):",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\timages[hash]",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\timages[hash] = images.get(hash, []) + [img]\n\t# for k, img_list in six.iteritems(images):\n\t# \tif len(img_list) > 1:\n\t# \t\tprint(\" \".join(img_list))\nif __name__ == '__main__':  # noqa: C901\n\timport os\n\timport sys\n\tdef usage():\n\t\tsys.stderr.write(\"\"\"SYNOPSIS: %s [ahash|phash|dhash|...] [<directory>]\nIdentifies similar images in the directory.",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\thashmethod",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\thashmethod = sys.argv[1] if len(sys.argv) > 1 else usage()\n\tif hashmethod == 'ahash':\n\t\thashfunc = imagehash.average_hash\n\telif hashmethod == 'phash':\n\t\thashfunc = imagehash.phash\n\telif hashmethod == 'dhash':\n\t\thashfunc = imagehash.dhash\n\telif hashmethod == 'whash-haar':\n\t\thashfunc = imagehash.whash\n\telif hashmethod == 'whash-db4':",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\thashfunc",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\thashfunc = imagehash.average_hash\n\telif hashmethod == 'phash':\n\t\thashfunc = imagehash.phash\n\telif hashmethod == 'dhash':\n\t\thashfunc = imagehash.dhash\n\telif hashmethod == 'whash-haar':\n\t\thashfunc = imagehash.whash\n\telif hashmethod == 'whash-db4':\n\t\tdef hashfunc(img):\n\t\t\treturn imagehash.whash(img, mode='db4')",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\thashfunc",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\thashfunc = imagehash.phash\n\telif hashmethod == 'dhash':\n\t\thashfunc = imagehash.dhash\n\telif hashmethod == 'whash-haar':\n\t\thashfunc = imagehash.whash\n\telif hashmethod == 'whash-db4':\n\t\tdef hashfunc(img):\n\t\t\treturn imagehash.whash(img, mode='db4')\n\telif hashmethod == 'colorhash':\n\t\thashfunc = imagehash.colorhash",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\thashfunc",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\thashfunc = imagehash.dhash\n\telif hashmethod == 'whash-haar':\n\t\thashfunc = imagehash.whash\n\telif hashmethod == 'whash-db4':\n\t\tdef hashfunc(img):\n\t\t\treturn imagehash.whash(img, mode='db4')\n\telif hashmethod == 'colorhash':\n\t\thashfunc = imagehash.colorhash\n\telif hashmethod == 'crop-resistant':\n\t\thashfunc = imagehash.crop_resistant_hash",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\thashfunc",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\thashfunc = imagehash.whash\n\telif hashmethod == 'whash-db4':\n\t\tdef hashfunc(img):\n\t\t\treturn imagehash.whash(img, mode='db4')\n\telif hashmethod == 'colorhash':\n\t\thashfunc = imagehash.colorhash\n\telif hashmethod == 'crop-resistant':\n\t\thashfunc = imagehash.crop_resistant_hash\n\telse:\n\t\tusage()",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\thashfunc",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\thashfunc = imagehash.colorhash\n\telif hashmethod == 'crop-resistant':\n\t\thashfunc = imagehash.crop_resistant_hash\n\telse:\n\t\tusage()\n\tuserpaths = sys.argv[2:] if len(sys.argv) > 2 else '.'\n\tfind_similar_images(userpaths=userpaths, hashfunc=hashfunc)",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\t\thashfunc",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\t\thashfunc = imagehash.crop_resistant_hash\n\telse:\n\t\tusage()\n\tuserpaths = sys.argv[2:] if len(sys.argv) > 2 else '.'\n\tfind_similar_images(userpaths=userpaths, hashfunc=hashfunc)",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
+        "label": "\tuserpaths",
+        "kind": 5,
+        "importPath": ".venv312.Scripts.find_similar_images",
+        "description": ".venv312.Scripts.find_similar_images",
+        "peekOfCode": "\tuserpaths = sys.argv[2:] if len(sys.argv) > 2 else '.'\n\tfind_similar_images(userpaths=userpaths, hashfunc=hashfunc)",
+        "detail": ".venv312.Scripts.find_similar_images",
+        "documentation": {}
+    },
+    {
         "label": "Config",
         "kind": 6,
         "importPath": "config.settings",
         "description": "config.settings",
-        "peekOfCode": "class Config:\n    _instance = None\n    LOGGING_FORMAT = \"%(asctime)s [%(levelname)s] %(message)s\"\n    LOGGING_DATE_FORMAT = \"%H:%M:%S\"\n    VIDEO_EXTENSIONS = [\".mp4\", \".mkv\", \".avi\", \".mov\", \".wmv\", \".flv\"]\n    SUBTITLE_EXTENSIONS = [\".srt\", \".ass\", \".vtt\", \".sub\", \".idx\"]\n    NUMBER_OF_IMAGES_PER_SCENE = 7\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)",
+        "peekOfCode": "class Config:\n    _instance = None\n    LOGGING_FORMAT = \"%(asctime)s [%(levelname)s] %(message)s\"\n    LOGGING_DATE_FORMAT = \"%H:%M:%S\"\n    VIDEO_EXTENSIONS = [\".mp4\", \".mkv\", \".avi\", \".mov\", \".wmv\", \".flv\"]\n    SUBTITLE_EXTENSIONS = [\".srt\", \".ass\", \".vtt\", \".sub\", \".idx\"]\n    NUMBER_OF_IMAGES_PER_SCENE = 7\n    # Tunable models -- override via environment variable.\n    # Defaults are chosen for a 4060Ti 8GB / 32GB DDR5 box.\n    VISION_MODEL = os.environ.get(\"CENSAI_VISION_MODEL\", \"qwen3-vl:4b\")",
         "detail": "config.settings",
         "documentation": {}
     },
@@ -1240,6 +1433,24 @@
         "description": "data.dataframe_manager",
         "peekOfCode": "class ScenesDataFrameManager:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance\n    def __init__(self):\n        if not hasattr(self, \"_initialized\"):\n            self.config = Config()\n            self._initialized = True",
         "detail": "data.dataframe_manager",
+        "documentation": {}
+    },
+    {
+        "label": "Store",
+        "kind": 6,
+        "importPath": "db.store",
+        "description": "db.store",
+        "peekOfCode": "class Store:\n    _instance = None\n    _lock = threading.RLock()\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance\n    def __init__(self):\n        if hasattr(self, \"_initialized\"):\n            return",
+        "detail": "db.store",
+        "documentation": {}
+    },
+    {
+        "label": "SCHEMA",
+        "kind": 5,
+        "importPath": "db.store",
+        "description": "db.store",
+        "peekOfCode": "SCHEMA = \"\"\"\nPRAGMA foreign_keys = ON;\nCREATE TABLE IF NOT EXISTS videos (\n    video_id   INTEGER PRIMARY KEY,\n    path       TEXT    NOT NULL UNIQUE,\n    name       TEXT    NOT NULL\n);\nCREATE TABLE IF NOT EXISTS subtitles (\n    id                 INTEGER PRIMARY KEY AUTOINCREMENT,\n    video_id           INTEGER NOT NULL,",
+        "detail": "db.store",
         "documentation": {}
     },
     {
@@ -2237,16 +2448,7 @@
         "kind": 5,
         "importPath": "censor",
         "description": "censor",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndef censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Running NudeNet across saved scene frames\",\n        \"5. Classifying representative frames with a local vision model\",\n        \"6. Aggregating scene evidence into final censor decisions\",",
-        "detail": "censor",
-        "documentation": {}
-    },
-    {
-        "label": "df_manager",
-        "kind": 5,
-        "importPath": "censor",
-        "description": "censor",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndef censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Running NudeNet across saved scene frames\",\n        \"5. Classifying representative frames with a local vision model\",\n        \"6. Aggregating scene evidence into final censor decisions\",\n        \"7. Muting audio\",",
+        "peekOfCode": "config = Config()\ndef censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Running NudeNet across saved scene frames\",\n        \"5. Classifying representative frames with a local vision model\",\n        \"6. Aggregating scene evidence into final censor decisions\",\n        \"7. Muting audio\",",
         "detail": "censor",
         "documentation": {}
     },
@@ -2260,20 +2462,11 @@
         "documentation": {}
     },
     {
-        "label": "detect_nudity",
-        "kind": 2,
-        "importPath": "nudity",
-        "description": "nudity",
-        "peekOfCode": "def detect_nudity(image_path):\n    raw_results = detector.detect(image_path)\n    results = _normalize_detector_results(raw_results)\n    return _detector_signal(results)\ndef detect_nudity_in_video(video_id):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (\n            df_manager.all_scenes_df[\"detector_raw\"].isnull()",
-        "detail": "nudity",
-        "documentation": {}
-    },
-    {
         "label": "detect_nudity_in_video",
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def detect_nudity_in_video(video_id):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (\n            df_manager.all_scenes_df[\"detector_raw\"].isnull()\n            | df_manager.all_scenes_df[\"detector_raw\"].astype(str).eq(\"\")\n        )\n    ]\n    if rows.empty:",
+        "peekOfCode": "def detect_nudity_in_video(video_id):\n    frames = [row for row in store.get_frames(video_id) if row[\"image_sha256\"]]\n    if not frames:\n        logging.info(\"No frames to scan for video %s.\", video_id)\n        mark_scene_representative_frames(video_id)\n        return\n    new_calls = 0\n    repaired_cached_rows = 0\n    for frame in tqdm(frames, desc=f\"NudeNet on {video_id}\", unit=\"frame\"):\n        sha = frame[\"image_sha256\"]",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2282,7 +2475,7 @@
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def mark_scene_representative_frames(video_id):\n    scene_rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (df_manager.all_scenes_df[\"scene_number\"].notnull())\n    ].copy()\n    if scene_rows.empty:\n        return\n    df_manager.all_scenes_df.loc[scene_rows.index, \"frame_role\"] = \"support\"\n    scene_rows[\"scene_snapshot_number\"] = scene_rows[\"scene_snapshot_number\"].astype(float)",
+        "peekOfCode": "def mark_scene_representative_frames(video_id):\n    \"\"\"Tag the frames we intend to classify with vision so the next stage\n    knows what to process. The role column is informational only.\"\"\"\n    store.clear_frame_roles(video_id)\n    scene_numbers = store.get_scene_numbers(video_id)\n    for scene_number in scene_numbers:\n        frames = store.get_scene_frames_with_caches(video_id, scene_number)\n        for frame_id, (role, _score) in _select_vision_frame_ids(frames):\n            store.set_frame_role(frame_id, role)\n# ---------------------------------------------------------------------------",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2291,7 +2484,7 @@
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def classify_frame(image_path, censorship_strength):\n    if censorship_strength and censorship_strength.name == \"STRICT\":\n        policy_line = (\n            \"STRICT policy: return visible_nudity=true for any toplessness, underwear-only sexual framing, \"\n            \"clear body exposure, or scene likely to be sexually intimate even if genitals are not visible.\"\n        )\n    else:\n        policy_line = (\n            \"MODERATE policy: return visible_nudity=true only for clearly visible breasts, genitals, buttocks, anus, \"\n            \"or unmistakable sexual activity. Do not mark clothed, armored, romantic, or merely close scenes as nudity.\"",
+        "peekOfCode": "def classify_frame(image_path, image_sha256, image_phash):\n    \"\"\"Cached frame classification. Order of lookup:\n        1. vision_cache by sha256+model\n        2. vision_phash_alias by phash+model (near-duplicate frame within a scene)\n        3. Call the model and store both.\n    \"\"\"\n    model = config.VISION_MODEL\n    cached = store.get_vision_cache(image_sha256, model)\n    if cached is not None:\n        return {",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2300,7 +2493,7 @@
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def generate_descriptions_for_nude_scenes(video_id):\n    mark_scene_representative_frames(video_id)\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (df_manager.all_scenes_df[\"frame_role\"].notnull())\n        & (\n            df_manager.all_scenes_df[\"vision_raw\"].isnull()\n            | df_manager.all_scenes_df[\"vision_raw\"].astype(str).eq(\"\")\n        )",
+        "peekOfCode": "def generate_descriptions_for_nude_scenes(video_id):\n    mark_scene_representative_frames(video_id)\n    scene_numbers = store.get_scene_numbers(video_id)\n    if not scene_numbers:\n        logging.info(\"No scenes to classify for video %s.\", video_id)\n        return\n    # Build a flat work list of frames-to-classify, in scene order.\n    work = []\n    for scene_number in scene_numbers:\n        for frame in store.get_scene_frames_with_caches(video_id, scene_number):",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2309,16 +2502,25 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}",
+        "peekOfCode": "config = Config()\nstore = Store()\nos.environ[\"OLLAMA_HOST\"] = config.ollama_host\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nollama_client = Client(host=config.ollama_host)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",",
         "detail": "nudity",
         "documentation": {}
     },
     {
-        "label": "df_manager",
+        "label": "store",
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {",
+        "peekOfCode": "store = Store()\nos.environ[\"OLLAMA_HOST\"] = config.ollama_host\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nollama_client = Client(host=config.ollama_host)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"OLLAMA_HOST\"]",
+        "kind": 5,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "os.environ[\"OLLAMA_HOST\"] = config.ollama_host\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nollama_client = Client(host=config.ollama_host)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n}",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2327,16 +2529,7 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "detector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",",
-        "detail": "nudity",
-        "documentation": {}
-    },
-    {
-        "label": "OLLAMA_HOST",
-        "kind": 5,
-        "importPath": "nudity",
-        "description": "nudity",
-        "peekOfCode": "OLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",",
+        "peekOfCode": "detector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nollama_client = Client(host=config.ollama_host)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n}\nSOFT_EXPOSURE_TERMS = {",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2345,7 +2538,7 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "ollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n}\nSOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",",
+        "peekOfCode": "ollama_client = Client(host=config.ollama_host)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n}\nSOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2372,8 +2565,44 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "SOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",\n    \"covered_buttocks\",\n}\ndef _normalize_detector_results(results):\n    filtered = []\n    for result in results:\n        label = str(result.get(\"class\", \"\")).strip()\n        label_lower = label.lower()\n        if any(term in label_lower for term in IGNORED_DETECTOR_TERMS):",
+        "peekOfCode": "SOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",\n    \"covered_buttocks\",\n}\nDETECTOR_LABEL_ALIASES = {\n    \"female_breast_exposed\": \"exposed_breast\",\n    \"male_breast_exposed\": \"male_breast_exposed\",\n    \"female_genitalia_exposed\": \"exposed_genitalia\",\n    \"male_genitalia_exposed\": \"exposed_genitalia\",\n    \"buttocks_exposed\": \"exposed_buttocks\",",
         "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "DETECTOR_LABEL_ALIASES",
+        "kind": 5,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "DETECTOR_LABEL_ALIASES = {\n    \"female_breast_exposed\": \"exposed_breast\",\n    \"male_breast_exposed\": \"male_breast_exposed\",\n    \"female_genitalia_exposed\": \"exposed_genitalia\",\n    \"male_genitalia_exposed\": \"exposed_genitalia\",\n    \"buttocks_exposed\": \"exposed_buttocks\",\n    \"anus_exposed\": \"exposed_anus\",\n    \"female_breast_covered\": \"covered_breast\",\n    \"buttocks_covered\": \"covered_buttocks\",\n}",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "VISION_JSON_SCHEMA",
+        "kind": 5,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "VISION_JSON_SCHEMA = {\n    \"type\": \"object\",\n    \"required\": [\n        \"summary\",\n        \"visible_nudity\",\n        \"explicit_body_exposure\",\n        \"sexual_activity\",\n        \"intimacy_level\",\n        \"confidence\",\n        \"reason_short\",",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "VISION_PROMPT",
+        "kind": 5,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "VISION_PROMPT = \"\"\"You are a content moderation reviewer for TV and film.\nLook at this single video frame and classify ONLY what is visually present.\nBase every answer strictly on what is actually visible in this one image.\nDo not infer from context, do not identify actors, do not guess.\nDefinitions:\n- visible_nudity: TRUE only if you can clearly see a bare female nipple/areola,\n  bare buttocks, bare genitals, or a bare anus. Cleavage, swimwear, lingerie,\n  shirtless men, tight clothing, and underwear-only shots are NOT visible_nudity.\n- explicit_body_exposure:\n    \"clear\"   = unmistakable bare nipple/genitals/buttocks/anus visible.",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "clean_text_cached",
+        "kind": 2,
+        "importPath": "profanity",
+        "description": "profanity",
+        "peekOfCode": "def clean_text_cached(text: str, text_hash: str | None = None) -> str:\n    \"\"\"Cached subtitle rewrite. Same text + same model => zero LLM calls.\"\"\"\n    if text_hash is None:\n        text_hash = util.sha256_text(text)\n    cached = store.get_profanity_cache(text_hash, config.PROFANITY_MODEL)\n    if cached is not None:\n        return cached\n    cleaned = _call_profanity_llm(text)\n    store.set_profanity_cache(text_hash, config.PROFANITY_MODEL, cleaned)\n    return cleaned",
+        "detail": "profanity",
         "documentation": {}
     },
     {
@@ -2381,7 +2610,7 @@
         "kind": 2,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "def clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.\nInput: \"Fuck!\"\nOutput: \"Shoot!\"\nInput: \"This is fucking stupid!\"\nOutput: \"This is freaking stupid!\"\nInput: \"Fuck you!\"\nOutput: \"Forget you!\"\nInput: \"This is so fucked!\"\nOutput: \"This is a total mess!\"",
+        "peekOfCode": "def clean_text(text):\n    return clean_text_cached(text)\n# ---------------------------------------------------------------------------\n# Per-scene aggregation\n# ---------------------------------------------------------------------------\ndef _scene_subtitle_texts(video_id: int, scene_number: int) -> list[str]:\n    rows = store.conn.execute(\n        \"SELECT text FROM subtitles WHERE video_id = ? AND scene_number = ?\",\n        (video_id, scene_number),\n    ).fetchall()",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2390,7 +2619,7 @@
         "kind": 2,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "def determine_if_should_censor_video(video_id: int):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_number\"].notna())\n    ]\n    if rows.empty:\n        logging.info(\"No scenes to process for video %s.\", video_id)\n        return False\n    is_strict = bool(config.censorship_strength and config.censorship_strength.name == \"STRICT\")\n    try:",
+        "peekOfCode": "def determine_if_should_censor_video(video_id: int):\n    scene_numbers = store.get_scene_numbers(video_id)\n    if not scene_numbers:\n        logging.info(\"No scenes to process for video %s.\", video_id)\n        return False\n    is_strict = config.is_strict\n    for scene_number in scene_numbers:\n        frames = store.get_scene_frames_with_caches(video_id, scene_number)\n        representative = [\n            f for f in frames if f[\"frame_role\"] and f[\"frame_role\"] != \"support\"",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2399,25 +2628,16 @@
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"",
+        "peekOfCode": "config = Config()\nstore = Store()\nos.environ[\"OLLAMA_HOST\"] = config.ollama_host\nSTRONG_DETECTOR_LABELS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n    \"female_breast_exposed\",\n    \"female_genitalia_exposed\",",
         "detail": "profanity",
         "documentation": {}
     },
     {
-        "label": "df_manager",
+        "label": "store",
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"",
-        "detail": "profanity",
-        "documentation": {}
-    },
-    {
-        "label": "OLLAMA_HOST",
-        "kind": 5,
-        "importPath": "profanity",
-        "description": "profanity",
-        "peekOfCode": "OLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"\n    r\"fuck|fucking|boned|whore|brothel|sex|sexual|kiss|bed|undress|moan|ride me|take off\"",
+        "peekOfCode": "store = Store()\nos.environ[\"OLLAMA_HOST\"] = config.ollama_host\nSTRONG_DETECTOR_LABELS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n    \"female_breast_exposed\",\n    \"female_genitalia_exposed\",\n    \"male_genitalia_exposed\",",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2426,7 +2646,25 @@
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "os.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"\n    r\"fuck|fucking|boned|whore|brothel|sex|sexual|kiss|bed|undress|moan|ride me|take off\"\n    r\")\\b\",\n    re.IGNORECASE,\n)\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.",
+        "peekOfCode": "os.environ[\"OLLAMA_HOST\"] = config.ollama_host\nSTRONG_DETECTOR_LABELS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n    \"female_breast_exposed\",\n    \"female_genitalia_exposed\",\n    \"male_genitalia_exposed\",\n    \"buttocks_exposed\",",
+        "detail": "profanity",
+        "documentation": {}
+    },
+    {
+        "label": "STRONG_DETECTOR_LABELS",
+        "kind": 5,
+        "importPath": "profanity",
+        "description": "profanity",
+        "peekOfCode": "STRONG_DETECTOR_LABELS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n    \"female_breast_exposed\",\n    \"female_genitalia_exposed\",\n    \"male_genitalia_exposed\",\n    \"buttocks_exposed\",\n    \"anus_exposed\",",
+        "detail": "profanity",
+        "documentation": {}
+    },
+    {
+        "label": "SOFT_DETECTOR_LABELS",
+        "kind": 5,
+        "importPath": "profanity",
+        "description": "profanity",
+        "peekOfCode": "SOFT_DETECTOR_LABELS = {\n    \"covered_breast\",\n    \"covered_buttocks\",\n    \"female_breast_covered\",\n    \"buttocks_covered\",\n}\n# Tightened. The previous list flagged \"kiss\", \"bed\", \"ass\", \"sex\" which fire\n# on innocent text like \"we went to bed\", \"kick ass\", etc. We keep only words\n# that are essentially never used in a non-sexual context in TV dialogue.\nEXPLICIT_SUBTITLE_PATTERN = re.compile(",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2435,7 +2673,16 @@
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "EXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"\n    r\"fuck|fucking|boned|whore|brothel|sex|sexual|kiss|bed|undress|moan|ride me|take off\"\n    r\")\\b\",\n    re.IGNORECASE,\n)\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.\nInput: \"Fuck!\"",
+        "peekOfCode": "EXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|topless|\"\n    r\"breasts?|nipples?|genitals?|penis|vagina|clitoris|\"\n    r\"cock|dick|cunt|\"\n    r\"fuck(?:ing|s|ed)?|\"\n    r\"intercourse|orgasm|\"\n    r\"undress(?:ed|ing)?|\"\n    r\"masturbat(?:e|ing|ion)|\"\n    r\"horny|aroused\"",
+        "detail": "profanity",
+        "documentation": {}
+    },
+    {
+        "label": "PROFANITY_PROMPT_TEMPLATE",
+        "kind": 5,
+        "importPath": "profanity",
+        "description": "profanity",
+        "peekOfCode": "PROFANITY_PROMPT_TEMPLATE = \"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.\nInput: \"Fuck!\"\nOutput: \"Shoot!\"\nInput: \"This is fucking stupid!\"\nOutput: \"This is freaking stupid!\"\nInput: \"Fuck you!\"\nOutput: \"Forget you!\"\nInput: \"This is so fucked!\"\nOutput: \"This is a total mess!\"\nInput: \"I wanna fuck you so badly\"",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2444,7 +2691,7 @@
         "kind": 2,
         "importPath": "sub_manip",
         "description": "sub_manip",
-        "peekOfCode": "def custom_scorer(choice, query, **kwargs):\n    base_score = fuzz.ratio(choice, query)\n    query_episode = re.search(r\"S\\d{2}E\\d{2}\", query)\n    choice_episode = re.search(r\"S\\d{2}E\\d{2}\", choice)\n    if query_episode and choice_episode and query_episode.group() == choice_episode.group():\n        return 100\n    return base_score\ndef find_subtitles(path):\n    return sorted(\n        (sub for sub in pathlib.Path(path).rglob(\"*\") if sub.suffix.lower() in config.SUBTITLE_EXTENSIONS),",
+        "peekOfCode": "def custom_scorer(choice, query, **kwargs):\n    base_score = fuzz.ratio(choice, query)\n    query_episode = re.search(r\"S\\d{2}E\\d{2}\", query)\n    choice_episode = re.search(r\"S\\d{2}E\\d{2}\", choice)\n    if query_episode and choice_episode and query_episode.group() == choice_episode.group():\n        return 100\n    return base_score\ndef find_subtitles(path):\n    return sorted(\n        (",
         "detail": "sub_manip",
         "documentation": {}
     },
@@ -2453,7 +2700,7 @@
         "kind": 2,
         "importPath": "sub_manip",
         "description": "sub_manip",
-        "peekOfCode": "def find_subtitles(path):\n    return sorted(\n        (sub for sub in pathlib.Path(path).rglob(\"*\") if sub.suffix.lower() in config.SUBTITLE_EXTENSIONS),\n        key=lambda p: str(p).lower(),\n    )\ndef match_video_and_subtitles(videos, subtitles):\n    if not videos:\n        logging.warning(\"No videos found.\")\n        return {}\n    if not subtitles:",
+        "peekOfCode": "def find_subtitles(path):\n    return sorted(\n        (\n            sub\n            for sub in pathlib.Path(path).rglob(\"*\")\n            if sub.suffix.lower() in config.SUBTITLE_EXTENSIONS\n        ),\n        key=lambda p: str(p).lower(),\n    )\ndef match_video_and_subtitles(videos, subtitles):",
         "detail": "sub_manip",
         "documentation": {}
     },
@@ -2480,7 +2727,7 @@
         "kind": 2,
         "importPath": "sub_manip",
         "description": "sub_manip",
-        "peekOfCode": "def clean_subtitles(video_id, subtitle_path):\n    if subtitle_path is None:\n        logging.info(\"No subtitle file for video %s. Skipping subtitle cleanup.\", video_id)\n        if video_id not in config.subtitles_processed_video_ids:\n            config.subtitles_processed_video_ids.append(video_id)\n        return\n    existing_rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"subtitle\"].notna())\n    ]",
+        "peekOfCode": "def clean_subtitles(video_id, subtitle_path):\n    if subtitle_path is None:\n        logging.info(\"No subtitle file for video %s. Skipping subtitle cleanup.\", video_id)\n        return\n    if store.has_subtitles(video_id):\n        logging.info(\n            \"Subtitles for video %s already loaded into the DB. Skipping re-parse.\",\n            video_id,\n        )\n        return",
         "detail": "sub_manip",
         "documentation": {}
     },
@@ -2489,7 +2736,7 @@
         "kind": 2,
         "importPath": "sub_manip",
         "description": "sub_manip",
-        "peekOfCode": "def write_censored_subtitles(video_id, source_subtitle_path, output_subtitle_path):\n    if source_subtitle_path is None:\n        logging.info(\"No source subtitle file for video %s. Skipping subtitle output.\", video_id)\n        return\n    subs = pysrt.open(str(source_subtitle_path))\n    subtitle_rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"subtitle\"].notna())\n    ].copy()\n    if subtitle_rows.empty:",
+        "peekOfCode": "def write_censored_subtitles(video_id, source_subtitle_path, output_subtitle_path):\n    if source_subtitle_path is None:\n        logging.info(\"No source subtitle file for video %s. Skipping subtitle output.\", video_id)\n        return\n    subs = pysrt.open(str(source_subtitle_path))\n    rows = store.get_subtitles(video_id)\n    if not rows:\n        logging.warning(\"No subtitle rows found for video %s. Skipping subtitle output.\", video_id)\n        return\n    rows_by_start = {int(r[\"start_ms\"]): r for r in rows}",
         "detail": "sub_manip",
         "documentation": {}
     },
@@ -2498,16 +2745,16 @@
         "kind": 5,
         "importPath": "sub_manip",
         "description": "sub_manip",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndef custom_scorer(choice, query, **kwargs):\n    base_score = fuzz.ratio(choice, query)\n    query_episode = re.search(r\"S\\d{2}E\\d{2}\", query)\n    choice_episode = re.search(r\"S\\d{2}E\\d{2}\", choice)\n    if query_episode and choice_episode and query_episode.group() == choice_episode.group():\n        return 100\n    return base_score\ndef find_subtitles(path):",
+        "peekOfCode": "config = Config()\nstore = Store()\ndef custom_scorer(choice, query, **kwargs):\n    base_score = fuzz.ratio(choice, query)\n    query_episode = re.search(r\"S\\d{2}E\\d{2}\", query)\n    choice_episode = re.search(r\"S\\d{2}E\\d{2}\", choice)\n    if query_episode and choice_episode and query_episode.group() == choice_episode.group():\n        return 100\n    return base_score\ndef find_subtitles(path):",
         "detail": "sub_manip",
         "documentation": {}
     },
     {
-        "label": "df_manager",
+        "label": "store",
         "kind": 5,
         "importPath": "sub_manip",
         "description": "sub_manip",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndef custom_scorer(choice, query, **kwargs):\n    base_score = fuzz.ratio(choice, query)\n    query_episode = re.search(r\"S\\d{2}E\\d{2}\", query)\n    choice_episode = re.search(r\"S\\d{2}E\\d{2}\", choice)\n    if query_episode and choice_episode and query_episode.group() == choice_episode.group():\n        return 100\n    return base_score\ndef find_subtitles(path):\n    return sorted(",
+        "peekOfCode": "store = Store()\ndef custom_scorer(choice, query, **kwargs):\n    base_score = fuzz.ratio(choice, query)\n    query_episode = re.search(r\"S\\d{2}E\\d{2}\", query)\n    choice_episode = re.search(r\"S\\d{2}E\\d{2}\", choice)\n    if query_episode and choice_episode and query_episode.group() == choice_episode.group():\n        return 100\n    return base_score\ndef find_subtitles(path):\n    return sorted(",
         "detail": "sub_manip",
         "documentation": {}
     },
@@ -2525,7 +2772,7 @@
         "kind": 2,
         "importPath": "util",
         "description": "util",
-        "peekOfCode": "def print_censorship_message():\n    print()\n    print(\n        \"-------------------------------------------------------------------------------------------\")\n    print(\"Starting the censorship process.\")\n    print(\n        \"-------------------------------------------------------------------------------------------\")\n    print()\ndef get_censorship_strength():\n    time.sleep(0.1)",
+        "peekOfCode": "def print_censorship_message():\n    print()\n    print(\n        \"-------------------------------------------------------------------------------------------\"\n    )\n    print(\"Starting the censorship process.\")\n    print(\n        \"-------------------------------------------------------------------------------------------\"\n    )\n    print()",
         "detail": "util",
         "documentation": {}
     },
@@ -2534,7 +2781,43 @@
         "kind": 2,
         "importPath": "util",
         "description": "util",
-        "peekOfCode": "def get_censorship_strength():\n    time.sleep(0.1)\n    config = Config()\n    print(\"Enter censorship strength (1 or 2):\")\n    print(f\"1. {CensorshipStrength.MODERATE} - Only Explicit on screen exposed nudity is removed.  \")\n    print(\n        f\"2. {CensorshipStrength.STRICT} - Almost all on screen nudity is removed. If any story is present in said scenes, an AI generated summary is provided on a black screen later. Profane dialogues are muted and their subtitles replaced by AI generated sentences with similar meaning. \"\n    )\n    choice = input(\"Enter your choice: \").strip()\n    if choice not in ['1', '2']:",
+        "peekOfCode": "def get_censorship_strength():\n    time.sleep(0.1)\n    config = Config()\n    print(\"Enter censorship strength (1 or 2):\")\n    print(\n        f\"1. {CensorshipStrength.MODERATE} - Only explicit on-screen exposed nudity is removed.\"\n    )\n    print(\n        f\"2. {CensorshipStrength.STRICT} - Almost all on-screen nudity is removed. Profane dialogues are muted and their subtitles replaced by AI generated sentences with similar meaning.\"\n    )",
+        "detail": "util",
+        "documentation": {}
+    },
+    {
+        "label": "sha256_file",
+        "kind": 2,
+        "importPath": "util",
+        "description": "util",
+        "peekOfCode": "def sha256_file(path) -> str:\n    \"\"\"SHA-256 of the raw file bytes. Used as the cache key for LLM/detector\n    calls so that re-running on identical frames is free.\"\"\"\n    h = hashlib.sha256()\n    with open(path, \"rb\") as f:\n        for chunk in iter(lambda: f.read(1 << 20), b\"\"):\n            h.update(chunk)\n    return h.hexdigest()\ndef sha256_text(text: str) -> str:\n    return hashlib.sha256(text.strip().encode(\"utf-8\")).hexdigest()",
+        "detail": "util",
+        "documentation": {}
+    },
+    {
+        "label": "sha256_text",
+        "kind": 2,
+        "importPath": "util",
+        "description": "util",
+        "peekOfCode": "def sha256_text(text: str) -> str:\n    return hashlib.sha256(text.strip().encode(\"utf-8\")).hexdigest()\ndef phash_image(path) -> str:\n    \"\"\"Perceptual hash (pHash) as hex string. Used to dedupe near-identical\n    frames within a scene so the vision model isn't called repeatedly on\n    visually identical snapshots.\"\"\"\n    import imagehash  # lazy: imagehash drags in numpy/scipy\n    with Image.open(path) as img:\n        return str(imagehash.phash(img.convert(\"RGB\"), hash_size=16))\ndef file_exists_nonempty(path) -> bool:",
+        "detail": "util",
+        "documentation": {}
+    },
+    {
+        "label": "phash_image",
+        "kind": 2,
+        "importPath": "util",
+        "description": "util",
+        "peekOfCode": "def phash_image(path) -> str:\n    \"\"\"Perceptual hash (pHash) as hex string. Used to dedupe near-identical\n    frames within a scene so the vision model isn't called repeatedly on\n    visually identical snapshots.\"\"\"\n    import imagehash  # lazy: imagehash drags in numpy/scipy\n    with Image.open(path) as img:\n        return str(imagehash.phash(img.convert(\"RGB\"), hash_size=16))\ndef file_exists_nonempty(path) -> bool:\n    p = Path(path)\n    return p.is_file() and p.stat().st_size > 0",
+        "detail": "util",
+        "documentation": {}
+    },
+    {
+        "label": "file_exists_nonempty",
+        "kind": 2,
+        "importPath": "util",
+        "description": "util",
+        "peekOfCode": "def file_exists_nonempty(path) -> bool:\n    p = Path(path)\n    return p.is_file() and p.stat().st_size > 0",
         "detail": "util",
         "documentation": {}
     },
@@ -2543,7 +2826,7 @@
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n            and \"temp\" not in {part.lower() for part in video.resolve().relative_to(root_path).parts[:-1]}\n        ),",
+        "peekOfCode": "def find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n            and \"temp\"\n            not in {part.lower() for part in video.resolve().relative_to(root_path).parts[:-1]}",
         "detail": "video_manip",
         "documentation": {}
     },
@@ -2552,7 +2835,7 @@
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def create_video_to_id_mappings(video_list):\n    config.video_to_id = {}\n    config.id_to_video = {}\n    for idx, video_path in enumerate(video_list, start=1):\n        config.video_to_id[video_path] = idx\n        config.id_to_video[idx] = video_path\ndef split_into_scenes(video_id):\n    current_scenes_df = pd.DataFrame()\n    should_not_split = False\n    detection_exists = (config._temp_folder_path / f\"{video_id}/scenes.csv\").exists()",
+        "peekOfCode": "def create_video_to_id_mappings(video_list):\n    config.video_to_id = {}\n    config.id_to_video = {}\n    for idx, video_path in enumerate(video_list, start=1):\n        config.video_to_id[video_path] = idx\n        config.id_to_video[idx] = video_path\n        store.upsert_video(idx, str(video_path), video_path.name)\ndef split_into_scenes(video_id):\n    video_path = config.id_to_video[video_id]\n    scene_csv_path = config._temp_folder_path / f\"{video_id}/scenes.csv\"",
         "detail": "video_manip",
         "documentation": {}
     },
@@ -2561,25 +2844,25 @@
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def split_into_scenes(video_id):\n    current_scenes_df = pd.DataFrame()\n    should_not_split = False\n    detection_exists = (config._temp_folder_path / f\"{video_id}/scenes.csv\").exists()\n    if detection_exists:\n        current_scenes_df = pd.read_csv(config._temp_folder_path / f\"{video_id}/scenes.csv\", skiprows=1)\n        should_not_split = math.isclose(\n            len(current_scenes_df) * config.NUMBER_OF_IMAGES_PER_SCENE,\n            len(list((config._temp_folder_path / f\"{video_id}\").glob(\"*.jpg\"))),\n            rel_tol=0.01,",
+        "peekOfCode": "def split_into_scenes(video_id):\n    video_path = config.id_to_video[video_id]\n    scene_csv_path = config._temp_folder_path / f\"{video_id}/scenes.csv\"\n    detection_exists = scene_csv_path.exists()\n    expected_images = 0\n    should_not_split = False\n    if detection_exists:\n        scenes_df = pd.read_csv(scene_csv_path, skiprows=1)\n        expected_images = len(scenes_df) * config.NUMBER_OF_IMAGES_PER_SCENE\n        actual_images = len(list((config._temp_folder_path / f\"{video_id}\").glob(\"*.jpg\")))",
         "detail": "video_manip",
         "documentation": {}
     },
     {
-        "label": "add_image_paths_and_scene_subs",
+        "label": "index_scene_images",
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def add_image_paths_and_scene_subs(video_id):\n    images = list((config._temp_folder_path / f\"{video_id}\").glob(\"*.jpg\"))\n    if not images:\n        logging.warning(\"No images found in %s. Skipping scene update.\", config._temp_folder_path / str(video_id))\n        return\n    df_manager.init_scene_images_df()\n    for image in images:\n        scene_number, image_number, timestamp = map(int, image.stem.split(\"-\"))\n        df_manager.scene_images_df.loc[len(df_manager.scene_images_df)] = [\n            scene_number,",
+        "peekOfCode": "def index_scene_images(video_id):\n    \"\"\"Compute sha256 + phash for every snapshot frame and upsert into the DB.\n    Re-runs are cheap because INSERT ... ON CONFLICT keeps existing hashes.\"\"\"\n    images = sorted((config._temp_folder_path / f\"{video_id}\").glob(\"*.jpg\"))\n    if not images:\n        logging.warning(\n            \"No images found in %s. Skipping frame indexing.\",\n            config._temp_folder_path / str(video_id),\n        )\n        return",
         "detail": "video_manip",
         "documentation": {}
     },
     {
-        "label": "assign_scene_numbers",
+        "label": "assign_scene_numbers_to_subtitles",
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def assign_scene_numbers(video_id):\n    scene_csv_path = config._temp_folder_path / f\"{video_id}/scenes.csv\"\n    if not scene_csv_path.exists():\n        logging.warning(\"Scene CSV not found for video %s. Subtitle-to-scene mapping skipped.\", video_id)\n        return\n    scene_ranges = pd.read_csv(scene_csv_path, skiprows=1)\n    scene_ranges[\"start_ms\"] = (scene_ranges[\"Start Time (seconds)\"] * 1000).round().astype(int)\n    scene_ranges[\"end_ms\"] = (scene_ranges[\"End Time (seconds)\"] * 1000).round().astype(int)\n    subtitle_mask = (\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)",
+        "peekOfCode": "def assign_scene_numbers_to_subtitles(video_id):\n    scene_csv_path = config._temp_folder_path / f\"{video_id}/scenes.csv\"\n    if not scene_csv_path.exists():\n        logging.warning(\n            \"Scene CSV not found for video %s. Subtitle-to-scene mapping skipped.\", video_id\n        )\n        return\n    scene_ranges = pd.read_csv(scene_csv_path, skiprows=1)\n    scene_ranges[\"start_ms\"] = (scene_ranges[\"Start Time (seconds)\"] * 1000).round().astype(int)\n    scene_ranges[\"end_ms\"] = (scene_ranges[\"End Time (seconds)\"] * 1000).round().astype(int)",
         "detail": "video_manip",
         "documentation": {}
     },
@@ -2588,7 +2871,7 @@
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def mute_audio(video_id):\n    video_path = config.id_to_video[video_id]\n    output_path = config.muted_audio_root_path / video_path.name\n    output_path.parent.mkdir(parents=True, exist_ok=True)\n    profane_audio_timestamps = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"profanity_present\"] == True)\n        & (df_manager.all_scenes_df[\"video_id\"] == video_id)\n    ]\n    if profane_audio_timestamps.empty:\n        logging.info(\"No profane audio timestamps found for video %s. Copying original audio/video.\", video_id)",
+        "peekOfCode": "def mute_audio(video_id):\n    video_path = config.id_to_video[video_id]\n    output_path = config.muted_audio_root_path / video_path.name\n    output_path.parent.mkdir(parents=True, exist_ok=True)\n    intervals = store.get_profane_subtitle_intervals(video_id)\n    if not intervals:\n        logging.info(\n            \"No profane audio timestamps found for video %s. Copying original audio/video.\",\n            video_id,\n        )",
         "detail": "video_manip",
         "documentation": {}
     },
@@ -2597,7 +2880,16 @@
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def remove_scenes_and_generate_final_video(video_id, subtitle_path):\n    video_path = config.id_to_video[video_id]\n    input_path = config.muted_audio_root_path / video_path.name\n    source_for_copy = input_path if input_path.exists() else video_path\n    output_path = config.media_folder_path / f\"censored_{video_path.name}\"\n    subtitle_output_path = config.media_folder_path / f\"censored_{video_path.stem}.srt\"\n    scenes_to_censor = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"should_censor\"] == True)\n        & (df_manager.all_scenes_df[\"video_id\"] == video_id)\n    ][[\"scene_number\"]].drop_duplicates()",
+        "peekOfCode": "def remove_scenes_and_generate_final_video(video_id, subtitle_path):\n    video_path = config.id_to_video[video_id]\n    input_path = config.muted_audio_root_path / video_path.name\n    source_for_copy = input_path if input_path.exists() else video_path\n    output_path = config.media_folder_path / f\"censored_{video_path.name}\"\n    subtitle_output_path = config.media_folder_path / f\"censored_{video_path.stem}.srt\"\n    censored_scenes = store.get_censored_scene_numbers(video_id)\n    if not censored_scenes:\n        logging.info(\n            \"No scenes to censor for video %s. Copying video without visual changes.\", video_id",
+        "detail": "video_manip",
+        "documentation": {}
+    },
+    {
+        "label": "print_stats",
+        "kind": 2,
+        "importPath": "video_manip",
+        "description": "video_manip",
+        "peekOfCode": "def print_stats(video_id):\n    rows = store.get_subtitles(video_id)\n    censored_scenes = store.get_censored_scene_numbers(video_id)\n    cleaned_subs = sum(1 for r in rows if r[\"cleaned_text\"])\n    profane_subs = sum(1 for r in rows if r[\"profanity_present\"])\n    # Use scenedetect's CSV for accurate scene boundaries.\n    total_time_cut_s = 0.0\n    scene_ranges = _scene_csv_ranges(video_id)\n    if scene_ranges is not None and censored_scenes:\n        filtered = scene_ranges[scene_ranges[\"Scene Number\"].isin(censored_scenes)]",
         "detail": "video_manip",
         "documentation": {}
     },
@@ -2606,16 +2898,16 @@
         "kind": 5,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndef find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")",
+        "peekOfCode": "config = Config()\nstore = Store()\ndef find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")",
         "detail": "video_manip",
         "documentation": {}
     },
     {
-        "label": "df_manager",
+        "label": "store",
         "kind": 5,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndef find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n            and \"temp\" not in {part.lower() for part in video.resolve().relative_to(root_path).parts[:-1]}",
+        "peekOfCode": "store = Store()\ndef find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n            and \"temp\"",
         "detail": "video_manip",
         "documentation": {}
     }

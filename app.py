@@ -6,7 +6,7 @@ import sub_manip as sm
 import util
 import video_manip as vm
 from config.settings import Config
-from data.dataframe_manager import ScenesDataFrameManager
+from db.store import Store
 from enums.CensorshipStrength import CensorshipStrength
 from enums.LoggingColors import LoggingColors
 
@@ -36,7 +36,15 @@ if __name__ == "__main__":
         "\nEnter the path to the media folder (will be searched recursively): "
     ).strip()
     config.media_folder_path = media_folder_path
-    ScenesDataFrameManager().load_checkpoint()
+
+    # Open SQLite store. Deleting the file at config.db_path clears all caches.
+    Store().open(config.db_path)
+    logging.info(
+        f"{LoggingColors.BLUE_INFO}Using cache DB at: {config.db_path}{LoggingColors.RESET}"
+    )
+    logging.info(
+        f"{LoggingColors.BLUE_INFO}Vision model: {config.VISION_MODEL}  |  Profanity model: {config.PROFANITY_MODEL}{LoggingColors.RESET}"
+    )
 
     if args.strength:
         config.censorship_strength = (
@@ -52,18 +60,16 @@ if __name__ == "__main__":
     )
     print()
 
-    logging.info(f"{LoggingColors.BLUE_INFO}Looking for video and subtitle files{LoggingColors.RESET}")
+    logging.info(
+        f"{LoggingColors.BLUE_INFO}Looking for video and subtitle files{LoggingColors.RESET}"
+    )
     videos = vm.find_videos(config.media_folder_path)
     vm.create_video_to_id_mappings(videos)
     subtitles = sm.find_subtitles(config.media_folder_path)
     config.video_and_subtitle_files = sm.match_video_and_subtitles(videos, subtitles)
     logging.info(
-        f"{LoggingColors.BLUE_INFO}Found {len(videos)} videos and {len(subtitles)} subtitles, matched {len(config.video_and_subtitle_files)} of them. {LoggingColors.RESET}"
+        f"{LoggingColors.BLUE_INFO}Found {len(videos)} videos and {len(subtitles)} subtitles, matched {len(config.video_and_subtitle_files)} of them.{LoggingColors.RESET}"
     )
-    print()
-
-    logging.info(f"{LoggingColors.BLUE_INFO}Proceeding to align subtitles with audio for precision.{LoggingColors.RESET}")
-    logging.info(f"{LoggingColors.YELLOW_WARNING}Completed aligning subtitles with audio.{LoggingColors.RESET}")
     print()
 
     util.print_censorship_message()
