@@ -1,0 +1,12 @@
+ffsubsync>=0.4.29
+nudenet>=3.4.2
+ollama>=0.5.1
+opencv-python>=4.11.0.86
+pandas>=2.3.0
+pillow>=11.2.1
+pysrt>=1.1.2
+rapidfuzz>=3.13.0
+safetext>=0.1.0
+scenedetect[opencv]>=0.6.6
+tqdm>=4.67.1
+transformers>=4.52.4

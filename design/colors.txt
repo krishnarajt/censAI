@@ -1,0 +1,33 @@
+- Tailwind
+
+{ 'oxford_blue': { DEFAULT: '#09102a', 100: '#020308', 200: '#040611', 300: '#050a19', 400: '#070d22', 500: '#09102a', 600: '#192d76', 700: '#294ac2', 800: '#6881df', 900: '#b3c0ef' }, 'cambridge_blue': { DEFAULT: '#839788', 100: '#1a1f1b', 200: '#333d36', 300: '#4d5c50', 400: '#667a6b', 500: '#839788', 600: '#9bab9f', 700: '#b4c0b7', 800: '#cdd5cf', 900: '#e6eae7' }, 'champagne': { DEFAULT: '#eee0cb', 100: '#423015', 200: '#84612b', 300: '#c39045', 400: '#d8b887', 500: '#eee0cb', 600: '#f1e5d4', 700: '#f5ecdf', 800: '#f8f2e9', 900: '#fcf9f4' }, 'khaki': { DEFAULT: '#baa898', 100: '#28211b', 200: '#514236', 300: '#796451', 400: '#9f856f', 500: '#baa898', 600: '#c8b9ac', 700: '#d5cac1', 800: '#e3dcd5', 900: '#f1edea' }, 'columbia_blue': { DEFAULT: '#bfd7ea', 100: '#152c40', 200: '#295980', 300: '#3e85c0', 400: '#7eaed5', 500: '#bfd7ea', 600: '#cbdeee', 700: '#d8e6f2', 800: '#e5eff7', 900: '#f2f7fb' } }
+
+- CSV
+
+09102a,839788,eee0cb,baa898,bfd7ea
+
+- With #
+
+#09102a, #839788, #eee0cb, #baa898, #bfd7ea
+
+- Array
+
+["09102a","839788","eee0cb","baa898","bfd7ea"]
+
+- Object
+
+{"Oxford Blue":"09102a","Cambridge blue":"839788","Champagne":"eee0cb","Khaki":"baa898","Columbia blue":"bfd7ea"}
+
+- Extended Array
+
+[{"name":"Oxford Blue","hex":"09102a","rgb":[9,16,42],"cmyk":[79,62,0,84],"hsb":[227,79,16],"hsl":[227,65,10],"lab":[5,6,-18]},{"name":"Cambridge blue","hex":"839788","rgb":[131,151,136],"cmyk":[13,0,10,41],"hsb":[135,13,59],"hsl":[135,9,55],"lab":[61,-10,6]},{"name":"Champagne","hex":"eee0cb","rgb":[238,224,203],"cmyk":[0,6,15,7],"hsb":[36,15,93],"hsl":[36,51,86],"lab":[90,1,12]},{"name":"Khaki","hex":"baa898","rgb":[186,168,152],"cmyk":[0,10,18,27],"hsb":[28,18,73],"hsl":[28,20,66],"lab":[70,4,11]},{"name":"Columbia blue","hex":"bfd7ea","rgb":[191,215,234],"cmyk":[18,8,0,8],"hsb":[207,18,92],"hsl":[207,51,83],"lab":[85,-4,-12]}]
+
+- XML
+
+<palette>
+  <color name="Oxford Blue" hex="09102a" r="9" g="16" b="42" />
+  <color name="Cambridge blue" hex="839788" r="131" g="151" b="136" />
+  <color name="Champagne" hex="eee0cb" r="238" g="224" b="203" />
+  <color name="Khaki" hex="baa898" r="186" g="168" b="152" />
+  <color name="Columbia blue" hex="bfd7ea" r="191" g="215" b="234" />
+</palette>
