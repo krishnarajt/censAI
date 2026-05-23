@@ -17,12 +17,14 @@ df_manager = ScenesDataFrameManager()
 
 
 def find_videos(path):
+    root_path = pathlib.Path(path).resolve()
     return sorted(
         (
             video
             for video in pathlib.Path(path).rglob("*")
             if video.suffix.lower() in config.VIDEO_EXTENSIONS
             and not video.name.startswith("censored_")
+            and "temp" not in {part.lower() for part in video.resolve().relative_to(root_path).parts[:-1]}
         ),
         key=lambda p: str(p).lower(),
     )

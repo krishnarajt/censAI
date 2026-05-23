@@ -1068,6 +1068,15 @@
         "documentation": {}
     },
     {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
         "label": "NudeDetector",
         "importPath": "nudenet",
         "description": "nudenet",
@@ -1132,15 +1141,6 @@
         "description": "safetext",
         "isExtraImport": true,
         "detail": "safetext",
-        "documentation": {}
-    },
-    {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
         "documentation": {}
     },
     {
@@ -2228,7 +2228,7 @@
         "kind": 2,
         "importPath": "censor",
         "description": "censor",
-        "peekOfCode": "def censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Detecting potential Nudity in video\",\n        \"5. Generating AI descriptions for each scene that has nudity\",\n        \"6. Using All information to determine if scene should be censored by asking an LLM\",\n        \"7. Muting audio\",\n        \"8. Removing Scenes, Generating final video\",",
+        "peekOfCode": "def censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Running NudeNet across saved scene frames\",\n        \"5. Classifying representative frames with a local vision model\",\n        \"6. Aggregating scene evidence into final censor decisions\",\n        \"7. Muting audio\",\n        \"8. Removing Scenes, Generating final video\",",
         "detail": "censor",
         "documentation": {}
     },
@@ -2237,7 +2237,7 @@
         "kind": 5,
         "importPath": "censor",
         "description": "censor",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndef censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Detecting potential Nudity in video\",\n        \"5. Generating AI descriptions for each scene that has nudity\",\n        \"6. Using All information to determine if scene should be censored by asking an LLM\",",
+        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndef censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Running NudeNet across saved scene frames\",\n        \"5. Classifying representative frames with a local vision model\",\n        \"6. Aggregating scene evidence into final censor decisions\",",
         "detail": "censor",
         "documentation": {}
     },
@@ -2246,7 +2246,7 @@
         "kind": 5,
         "importPath": "censor",
         "description": "censor",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndef censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Detecting potential Nudity in video\",\n        \"5. Generating AI descriptions for each scene that has nudity\",\n        \"6. Using All information to determine if scene should be censored by asking an LLM\",\n        \"7. Muting audio\",",
+        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndef censor(video_id, subtitle_path):\n    steps = [\n        \"1. Aligning Subtitles\",\n        \"2. Cleaning Subtitle File\",\n        \"3. Splitting Video into Scenes\",\n        \"4. Running NudeNet across saved scene frames\",\n        \"5. Classifying representative frames with a local vision model\",\n        \"6. Aggregating scene evidence into final censor decisions\",\n        \"7. Muting audio\",",
         "detail": "censor",
         "documentation": {}
     },
@@ -2264,7 +2264,7 @@
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def detect_nudity(image_path):\n    results = detector.detect(image_path)\n    results = [\n        result\n        for result in results\n        if \"face\" not in result[\"class\"].lower() and \"feet\" not in result[\"class\"].lower()\n    ]\n    return len(results) > 0\ndef detect_nudity_in_video(video_id):\n    rows = df_manager.all_scenes_df[",
+        "peekOfCode": "def detect_nudity(image_path):\n    raw_results = detector.detect(image_path)\n    results = _normalize_detector_results(raw_results)\n    return _detector_signal(results)\ndef detect_nudity_in_video(video_id):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (\n            df_manager.all_scenes_df[\"detector_raw\"].isnull()",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2273,16 +2273,25 @@
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def detect_nudity_in_video(video_id):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (df_manager.all_scenes_df[\"nudity_present\"].isnull())\n    ]\n    if rows.empty:\n        logging.info(\"Nudity detection already done for video %s or no scenes to process.\", video_id)\n        return\n    try:",
+        "peekOfCode": "def detect_nudity_in_video(video_id):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (\n            df_manager.all_scenes_df[\"detector_raw\"].isnull()\n            | df_manager.all_scenes_df[\"detector_raw\"].astype(str).eq(\"\")\n        )\n    ]\n    if rows.empty:",
         "detail": "nudity",
         "documentation": {}
     },
     {
-        "label": "generate_detailed_caption",
+        "label": "mark_scene_representative_frames",
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def generate_detailed_caption(image_path):\n    prompt = (\n        \"Describe this TV scene frame briefly and factually. \"\n        \"Mention people, clothing coverage, body exposure, intimacy, and whether nudity is visible.\"\n    )\n    response = ollama_client.chat(\n        model=\"qwen3-vl:4b\",\n        messages=[\n            {\n                \"role\": \"user\",",
+        "peekOfCode": "def mark_scene_representative_frames(video_id):\n    scene_rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (df_manager.all_scenes_df[\"scene_number\"].notnull())\n    ].copy()\n    if scene_rows.empty:\n        return\n    df_manager.all_scenes_df.loc[scene_rows.index, \"frame_role\"] = \"support\"\n    scene_rows[\"scene_snapshot_number\"] = scene_rows[\"scene_snapshot_number\"].astype(float)",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "classify_frame",
+        "kind": 2,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "def classify_frame(image_path, censorship_strength):\n    if censorship_strength and censorship_strength.name == \"STRICT\":\n        policy_line = (\n            \"STRICT policy: return visible_nudity=true for any toplessness, underwear-only sexual framing, \"\n            \"clear body exposure, or scene likely to be sexually intimate even if genitals are not visible.\"\n        )\n    else:\n        policy_line = (\n            \"MODERATE policy: return visible_nudity=true only for clearly visible breasts, genitals, buttocks, anus, \"\n            \"or unmistakable sexual activity. Do not mark clothed, armored, romantic, or merely close scenes as nudity.\"",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2291,7 +2300,7 @@
         "kind": 2,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "def generate_descriptions_for_nude_scenes(video_id):\n    scene_rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n    ].copy()\n    subtitle_rows = scene_rows[scene_rows[\"subtitle\"].notna()].copy()\n    sexual_pattern = re.compile(\n        r\"\\b(naked|nude|breast|breasts|cock|dick|penis|vagina|ass|arse|fuck|fucking|whore|brothel|sex|sexual|kiss|bed|boned|virgin|cunt|slut|ride|undress|moan)\\b\",\n        re.IGNORECASE,\n    )\n    risky_scene_numbers = set(",
+        "peekOfCode": "def generate_descriptions_for_nude_scenes(video_id):\n    mark_scene_representative_frames(video_id)\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_snapshot_path\"].notnull())\n        & (df_manager.all_scenes_df[\"frame_role\"].notnull())\n        & (\n            df_manager.all_scenes_df[\"vision_raw\"].isnull()\n            | df_manager.all_scenes_df[\"vision_raw\"].astype(str).eq(\"\")\n        )",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2300,7 +2309,7 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\ndef detect_nudity(image_path):",
+        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2309,7 +2318,7 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\ndef detect_nudity(image_path):\n    results = detector.detect(image_path)",
+        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndetector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2318,7 +2327,7 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "detector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\ndef detect_nudity(image_path):\n    results = detector.detect(image_path)\n    results = [",
+        "peekOfCode": "detector = NudeDetector(model_path=\"models/640m.onnx\", inference_resolution=640)\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2327,7 +2336,7 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "OLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\ndef detect_nudity(image_path):\n    results = detector.detect(image_path)\n    results = [\n        result",
+        "peekOfCode": "OLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2336,7 +2345,34 @@
         "kind": 5,
         "importPath": "nudity",
         "description": "nudity",
-        "peekOfCode": "ollama_client = Client(host=OLLAMA_HOST)\ndef detect_nudity(image_path):\n    results = detector.detect(image_path)\n    results = [\n        result\n        for result in results\n        if \"face\" not in result[\"class\"].lower() and \"feet\" not in result[\"class\"].lower()\n    ]\n    return len(results) > 0\ndef detect_nudity_in_video(video_id):",
+        "peekOfCode": "ollama_client = Client(host=OLLAMA_HOST)\nIGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n}\nSOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "IGNORED_DETECTOR_TERMS",
+        "kind": 5,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "IGNORED_DETECTOR_TERMS = {\"face\", \"feet\", \"foot\"}\nSTRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n}\nSOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",\n    \"covered_buttocks\",",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "STRONG_EXPLICIT_TERMS",
+        "kind": 5,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "STRONG_EXPLICIT_TERMS = {\n    \"exposed_breast\",\n    \"exposed_genitalia\",\n    \"exposed_buttocks\",\n    \"exposed_anus\",\n}\nSOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",\n    \"covered_buttocks\",\n}",
+        "detail": "nudity",
+        "documentation": {}
+    },
+    {
+        "label": "SOFT_EXPOSURE_TERMS",
+        "kind": 5,
+        "importPath": "nudity",
+        "description": "nudity",
+        "peekOfCode": "SOFT_EXPOSURE_TERMS = {\n    \"covered_breast\",\n    \"covered_buttocks\",\n}\ndef _normalize_detector_results(results):\n    filtered = []\n    for result in results:\n        label = str(result.get(\"class\", \"\")).strip()\n        label_lower = label.lower()\n        if any(term in label_lower for term in IGNORED_DETECTOR_TERMS):",
         "detail": "nudity",
         "documentation": {}
     },
@@ -2350,20 +2386,11 @@
         "documentation": {}
     },
     {
-        "label": "determine_if_should_censor_scene",
-        "kind": 2,
-        "importPath": "profanity",
-        "description": "profanity",
-        "peekOfCode": "def determine_if_should_censor_scene(image_descriptions: list, subtitles: list, nudity_present: bool):\n    prompt = f\"\"\"You are given raw descriptions of frames from a TV scene plus subtitle lines.\nReturn only one word: true or false.\nReturn true if the scene likely contains nudity, sexual activity, explicit body exposure, or strongly sexual dialogue/themes.\nReturn false otherwise.\nFrame Descriptions:\n{\", \".join(image_descriptions) if image_descriptions else \"None\"}\nSubtitles:\n{\", \".join(subtitles) if subtitles else \"None\"}\nNude detector hint:",
-        "detail": "profanity",
-        "documentation": {}
-    },
-    {
         "label": "determine_if_should_censor_video",
         "kind": 2,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "def determine_if_should_censor_video(video_id: int):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_number\"].notna())\n    ]\n    if rows.empty:\n        logging.info(\"No scenes to process for video %s.\", video_id)\n        return False\n    try:\n        for scene_number, scene_rows in rows.groupby(\"scene_number\"):",
+        "peekOfCode": "def determine_if_should_censor_video(video_id: int):\n    rows = df_manager.all_scenes_df[\n        (df_manager.all_scenes_df[\"video_id\"] == video_id)\n        & (df_manager.all_scenes_df[\"scene_number\"].notna())\n    ]\n    if rows.empty:\n        logging.info(\"No scenes to process for video %s.\", video_id)\n        return False\n    is_strict = bool(config.censorship_strength and config.censorship_strength.name == \"STRICT\")\n    try:",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2372,7 +2399,7 @@
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.",
+        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2381,7 +2408,7 @@
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.\nInput: \"Fuck!\"",
+        "peekOfCode": "df_manager = ScenesDataFrameManager()\nOLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2390,7 +2417,7 @@
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "OLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.\nInput: \"Fuck!\"\nOutput: \"Shoot!\"",
+        "peekOfCode": "OLLAMA_HOST = os.environ.get(\"OLLAMA_HOST\", \"http://localhost:11434\")\nif OLLAMA_HOST == \"0.0.0.0\" or OLLAMA_HOST.startswith(\"0.0.0.0\"):\n    OLLAMA_HOST = \"http://localhost:11434\"\nelif not OLLAMA_HOST.startswith(\"http\"):\n    OLLAMA_HOST = f\"http://{OLLAMA_HOST}\"\nos.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"\n    r\"fuck|fucking|boned|whore|brothel|sex|sexual|kiss|bed|undress|moan|ride me|take off\"",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2399,7 +2426,16 @@
         "kind": 5,
         "importPath": "profanity",
         "description": "profanity",
-        "peekOfCode": "os.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.\nInput: \"Fuck!\"\nOutput: \"Shoot!\"\nInput: \"This is fucking stupid!\"\nOutput: \"This is freaking stupid!\"\nInput: \"Fuck you!\"\nOutput: \"Forget you!\"\nInput: \"This is so fucked!\"",
+        "peekOfCode": "os.environ[\"OLLAMA_HOST\"] = OLLAMA_HOST\nEXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"\n    r\"fuck|fucking|boned|whore|brothel|sex|sexual|kiss|bed|undress|moan|ride me|take off\"\n    r\")\\b\",\n    re.IGNORECASE,\n)\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.",
+        "detail": "profanity",
+        "documentation": {}
+    },
+    {
+        "label": "EXPLICIT_SUBTITLE_PATTERN",
+        "kind": 5,
+        "importPath": "profanity",
+        "description": "profanity",
+        "peekOfCode": "EXPLICIT_SUBTITLE_PATTERN = re.compile(\n    r\"\\b(\"\n    r\"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|\"\n    r\"fuck|fucking|boned|whore|brothel|sex|sexual|kiss|bed|undress|moan|ride me|take off\"\n    r\")\\b\",\n    re.IGNORECASE,\n)\ndef clean_text(text):\n    prompt = f\"\"\"Return only the sanitized text. Remove all profanity while preserving the original meaning. If a single word is profane, replace it with a more appropriate alternative. For text with sexual implications, rewrite it in a kid-friendly manner. Do not provide explanations or advice. Only output the modified text. Give only 1 sentence.\nInput: \"Fuck!\"",
         "detail": "profanity",
         "documentation": {}
     },
@@ -2507,7 +2543,7 @@
         "kind": 2,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "def find_videos(path):\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n        ),\n        key=lambda p: str(p).lower(),\n    )",
+        "peekOfCode": "def find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n            and \"temp\" not in {part.lower() for part in video.resolve().relative_to(root_path).parts[:-1]}\n        ),",
         "detail": "video_manip",
         "documentation": {}
     },
@@ -2570,7 +2606,7 @@
         "kind": 5,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndef find_videos(path):\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n        ),",
+        "peekOfCode": "config = Config()\ndf_manager = ScenesDataFrameManager()\ndef find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")",
         "detail": "video_manip",
         "documentation": {}
     },
@@ -2579,7 +2615,7 @@
         "kind": 5,
         "importPath": "video_manip",
         "description": "video_manip",
-        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndef find_videos(path):\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n        ),\n        key=lambda p: str(p).lower(),",
+        "peekOfCode": "df_manager = ScenesDataFrameManager()\ndef find_videos(path):\n    root_path = pathlib.Path(path).resolve()\n    return sorted(\n        (\n            video\n            for video in pathlib.Path(path).rglob(\"*\")\n            if video.suffix.lower() in config.VIDEO_EXTENSIONS\n            and not video.name.startswith(\"censored_\")\n            and \"temp\" not in {part.lower() for part in video.resolve().relative_to(root_path).parts[:-1]}",
         "detail": "video_manip",
         "documentation": {}
     }

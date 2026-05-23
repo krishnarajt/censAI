@@ -47,10 +47,28 @@ class ScenesDataFrameManager:
         checkpoint_path = self.config._temp_folder_path / "scenes.pkl"
         if checkpoint_path.exists():
             self.all_scenes_df = pd.read_pickle(checkpoint_path)
+            self._normalize_scene_schema()
             print("Loaded scenes DataFrame from existing file.")
         else:
             self._init_empty_frames()
             print("Initialized new scenes DataFrame.")
+
+    def _normalize_scene_schema(self):
+        expected_columns = [col.name_str for col in SceneCols]
+        expected_dtypes = {col.name_str: col.dtype for col in SceneCols}
+
+        for column in expected_columns:
+            if column not in self.all_scenes_df.columns:
+                self.all_scenes_df[column] = pd.Series(dtype=expected_dtypes[column])
+
+        self.all_scenes_df = self.all_scenes_df[expected_columns]
+
+        for column, dtype in expected_dtypes.items():
+            try:
+                self.all_scenes_df[column] = self.all_scenes_df[column].astype(dtype)
+            except (TypeError, ValueError):
+                # Keep existing values when pandas cannot safely cast older checkpoints.
+                pass
 
     def print_stats(self, video_id: int):
         if self.all_scenes_df.empty:

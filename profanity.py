@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 import ollama
 from config.settings import Config
@@ -13,6 +14,14 @@ if OLLAMA_HOST == "0.0.0.0" or OLLAMA_HOST.startswith("0.0.0.0"):
 elif not OLLAMA_HOST.startswith("http"):
     OLLAMA_HOST = f"http://{OLLAMA_HOST}"
 os.environ["OLLAMA_HOST"] = OLLAMA_HOST
+
+EXPLICIT_SUBTITLE_PATTERN = re.compile(
+    r"\b("
+    r"naked|nude|breast|breasts|nipples?|genitals?|penis|vagina|cock|dick|ass|arse|"
+    r"fuck|fucking|boned|whore|brothel|sex|sexual|kiss|bed|undress|moan|ride me|take off"
+    r")\b",
+    re.IGNORECASE,
+)
 
 
 def clean_text(text):
@@ -43,28 +52,34 @@ Now sanitize:
     return response["message"]["content"].strip()
 
 
-def determine_if_should_censor_scene(image_descriptions: list, subtitles: list, nudity_present: bool):
-    prompt = f"""You are given raw descriptions of frames from a TV scene plus subtitle lines.
+def _scene_has_explicit_subtitles(subtitles):
+    return any(EXPLICIT_SUBTITLE_PATTERN.search(subtitle or "") for subtitle in subtitles)
 
-Return only one word: true or false.
 
-Return true if the scene likely contains nudity, sexual activity, explicit body exposure, or strongly sexual dialogue/themes.
-Return false otherwise.
+def _frame_vote(row):
+    confidence = float(row.get("vision_confidence") or 0.0)
+    visible_nudity = bool(row.get("visible_nudity") is True)
+    sexual_activity = bool(row.get("sexual_activity") is True)
+    exposure = str(row.get("explicit_exposure") or "none").lower()
+    detector_score = float(row.get("detector_max_score") or 0.0)
+    detector_labels = str(row.get("detector_labels") or "").lower()
 
-Frame Descriptions:
-{", ".join(image_descriptions) if image_descriptions else "None"}
-
-Subtitles:
-{", ".join(subtitles) if subtitles else "None"}
-
-Nude detector hint:
-{"nudity detected" if nudity_present else "no nudity detected"}
-"""
-    response = ollama.chat(
-        model="mistral",
-        messages=[{"role": "user", "content": prompt}],
+    strong_detector = detector_score >= 0.50 and any(
+        keyword in detector_labels
+        for keyword in ["exposed_breast", "exposed_genitalia", "exposed_buttocks", "exposed_anus"]
     )
-    return response["message"]["content"].strip().lower() == "true"
+    soft_detector = detector_score >= 0.75 and "covered_breast" in detector_labels
+
+    return {
+        "high_conf_explicit": visible_nudity and exposure == "clear" and confidence >= 0.70,
+        "visible_nudity": visible_nudity and confidence >= 0.55,
+        "partial_nudity": visible_nudity and exposure == "partial" and confidence >= 0.60,
+        "sexual_activity": sexual_activity and confidence >= 0.60,
+        "negative_guard": (not visible_nudity) and (not sexual_activity) and exposure == "none" and confidence >= 0.65,
+        "strong_detector": strong_detector,
+        "soft_detector": soft_detector,
+        "confidence": confidence,
+    }
 
 
 def determine_if_should_censor_video(video_id: int):
@@ -77,38 +92,55 @@ def determine_if_should_censor_video(video_id: int):
         logging.info("No scenes to process for video %s.", video_id)
         return False
 
+    is_strict = bool(config.censorship_strength and config.censorship_strength.name == "STRICT")
+
     try:
         for scene_number, scene_rows in rows.groupby("scene_number"):
-            if scene_rows["should_censor"].notna().all():
-                continue
+            representative_rows = scene_rows[
+                scene_rows["frame_role"].notna() & (scene_rows["frame_role"].astype(str) != "support")
+            ].copy()
 
-            image_descriptions = [
-                desc for desc in scene_rows["snapshot_desc"].dropna().astype(str).tolist()
-                if desc.strip()
-            ]
             subtitles = [
                 subtitle for subtitle in scene_rows["subtitle"].dropna().astype(str).tolist()
                 if subtitle.strip()
             ]
-            nudity_present = bool(scene_rows["nudity_present"].fillna(False).any())
+            explicit_subtitles = _scene_has_explicit_subtitles(subtitles)
 
-            if not nudity_present and not image_descriptions:
+            frame_votes = [_frame_vote(row) for _, row in representative_rows.iterrows()]
+            visible_count = sum(vote["visible_nudity"] for vote in frame_votes)
+            partial_count = sum(vote["partial_nudity"] for vote in frame_votes)
+            sexual_count = sum(vote["sexual_activity"] for vote in frame_votes)
+            negative_count = sum(vote["negative_guard"] for vote in frame_votes)
+            strong_detector_count = sum(vote["strong_detector"] for vote in frame_votes)
+            soft_detector_count = sum(vote["soft_detector"] for vote in frame_votes)
+            has_high_conf_explicit = any(vote["high_conf_explicit"] for vote in frame_votes)
+
+            if representative_rows.empty:
+                should_censor = bool(explicit_subtitles and is_strict)
+            elif (
+                negative_count == len(frame_votes)
+                and strong_detector_count == 0
+                and soft_detector_count == 0
+                and not explicit_subtitles
+            ):
                 should_censor = False
+            elif is_strict:
+                should_censor = bool(
+                    visible_count >= 1
+                    or partial_count >= 1
+                    or sexual_count >= 1
+                    or strong_detector_count >= 1
+                    or soft_detector_count >= 1
+                    or explicit_subtitles
+                )
             else:
-                try:
-                    should_censor = determine_if_should_censor_scene(
-                        image_descriptions,
-                        subtitles,
-                        nudity_present,
-                    )
-                except Exception as exc:
-                    logging.warning(
-                        "Scene classification failed for video %s scene %s: %s. Falling back to nudity detection.",
-                        video_id,
-                        scene_number,
-                        exc,
-                    )
-                    should_censor = nudity_present
+                should_censor = bool(
+                    has_high_conf_explicit
+                    or visible_count >= 2
+                    or sexual_count >= 1 and visible_count >= 1
+                    or strong_detector_count >= 2
+                    or partial_count >= 2
+                )
 
             df_manager.all_scenes_df.loc[scene_rows.index, "should_censor"] = should_censor
     except KeyboardInterrupt:

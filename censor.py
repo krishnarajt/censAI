@@ -18,12 +18,12 @@ def censor(video_id, subtitle_path):
         "1. Aligning Subtitles",
         "2. Cleaning Subtitle File",
         "3. Splitting Video into Scenes",
-        "4. Detecting potential Nudity in video",
-        "5. Generating AI descriptions for each scene that has nudity",
-        "6. Using All information to determine if scene should be censored by asking an LLM",
+        "4. Running NudeNet across saved scene frames",
+        "5. Classifying representative frames with a local vision model",
+        "6. Aggregating scene evidence into final censor decisions",
         "7. Muting audio",
         "8. Removing Scenes, Generating final video",
-        "Final Stats and Cleanup",
+        "Final Stats",
     ]
     current_step = iter(range(len(steps)))
     video_path = config.id_to_video[video_id]
@@ -90,7 +90,6 @@ def censor(video_id, subtitle_path):
         step_start = time.perf_counter()
         tqdm.write(steps[next(current_step)])
         df_manager.print_stats(video_id)
-        config.cleanup_temp_folder(video_id)
         tqdm.write(f"-> Done in {time.perf_counter() - step_start:.2f} sec")
 
     total_duration = time.perf_counter() - total_start
