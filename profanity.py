@@ -9,9 +9,12 @@ subtitle pieces, because subtitle text is one of the signals fed into it.
 import logging
 import os
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import ollama
+from tqdm import tqdm
 
+from adapters.llm_gateway import LLMGatewayAdapter
 import util
 from config.settings import Config
 from db.store import Store
@@ -19,6 +22,7 @@ from db.store import Store
 config = Config()
 store = Store()
 os.environ["OLLAMA_HOST"] = config.ollama_host
+llm_gateway_client = LLMGatewayAdapter(config)
 
 STRONG_DETECTOR_LABELS = {
     "exposed_breast",
@@ -78,12 +82,22 @@ Now sanitize:
 
 
 def _call_profanity_llm(text: str) -> str:
-    response = ollama.chat(
-        model=config.PROFANITY_MODEL,
+    messages = [
+        {"role": "user", "content": PROFANITY_PROMPT_TEMPLATE.format(text=text)},
+    ]
+    if config.USE_LLM_GATEWAY:
+        response = llm_gateway_client.chat(
+            model=config.profanity_model,
+            temperature=0.1,
+            messages=messages,
+        )
+        return llm_gateway_client.extract_content(response).strip()
+
+    client = ollama.Client(host=config.ollama_host)
+    response = client.chat(
+        model=config.profanity_model,
         options={"temperature": 0.1},
-        messages=[
-            {"role": "user", "content": PROFANITY_PROMPT_TEMPLATE.format(text=text)},
-        ],
+        messages=messages,
     )
     return response["message"]["content"].strip()
 
@@ -92,12 +106,76 @@ def clean_text_cached(text: str, text_hash: str | None = None) -> str:
     """Cached subtitle rewrite. Same text + same model => zero LLM calls."""
     if text_hash is None:
         text_hash = util.sha256_text(text)
-    cached = store.get_profanity_cache(text_hash, config.PROFANITY_MODEL)
+    cached = store.get_profanity_cache(text_hash, config.profanity_model)
     if cached is not None:
         return cached
     cleaned = _call_profanity_llm(text)
-    store.set_profanity_cache(text_hash, config.PROFANITY_MODEL, cleaned)
+    store.set_profanity_cache(text_hash, config.profanity_model, cleaned)
     return cleaned
+
+
+def clean_texts_cached(items: list[tuple[str, str]]) -> dict[str, str]:
+    """Bulk cached subtitle rewrite.
+
+    `items` is a list of (text_hash, text). Returns text_hash -> cleaned_text.
+    Gateway calls can run in parallel, but all SQLite cache reads/writes stay
+    on the caller thread.
+    """
+    results: dict[str, str] = {}
+    pending: dict[str, str] = {}
+    model = config.profanity_model
+
+    for text_hash, text in items:
+        cached = store.get_profanity_cache(text_hash, model)
+        if cached is not None:
+            results[text_hash] = cached
+            continue
+        pending.setdefault(text_hash, text)
+
+    if not pending:
+        return results
+
+    max_parallel_calls = (
+        config.LLM_GATEWAY_MAX_PARALLEL_CALLS
+        if config.USE_LLM_GATEWAY
+        else config.OLLAMA_MAX_PARALLEL_CALLS
+    )
+    provider_label = config.llm_provider_label
+
+    if max_parallel_calls <= 1:
+        for text_hash, text in tqdm(
+            pending.items(),
+            desc="Cleaning profane subtitles",
+            unit="sub",
+        ):
+            cleaned = _call_profanity_llm(text)
+            store.set_profanity_cache(text_hash, model, cleaned)
+            results[text_hash] = cleaned
+        return results
+
+    max_workers = min(max_parallel_calls, len(pending))
+    logging.info(
+        "Profanity %s pass: %d uncached subtitle(s), parallelism=%d.",
+        provider_label,
+        len(pending),
+        max_workers,
+    )
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_hash = {
+            executor.submit(_call_profanity_llm, text): text_hash
+            for text_hash, text in pending.items()
+        }
+        for future in tqdm(
+            as_completed(future_to_hash),
+            total=len(future_to_hash),
+            desc=f"Profanity {provider_label}",
+            unit="sub",
+        ):
+            text_hash = future_to_hash[future]
+            cleaned = future.result()
+            store.set_profanity_cache(text_hash, model, cleaned)
+            results[text_hash] = cleaned
+    return results
 
 
 # Back-compat name used by sub_manip.

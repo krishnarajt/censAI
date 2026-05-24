@@ -3,7 +3,7 @@
 Two stages:
   1. NudeNet (ONNX) runs on every snapshot frame. Output is cached by image
      sha256.
-  2. A local vision LLM (default qwen3-vl:4b) classifies a subset of frames
+  2. A vision LLM classifies a subset of frames
      per scene: the middle frame plus every frame whose NudeNet score crossed
      a threshold, capped at MAX_VISION_FRAMES_PER_SCENE. Output is cached by
      (sha256, model), with a (phash, model) -> sha256 alias so near-identical
@@ -17,19 +17,44 @@ import json
 import logging
 import os
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 from nudenet import NudeDetector
 from ollama import Client
 from tqdm import tqdm
 
+from adapters.llm_gateway import LLMGatewayAdapter
 from config.settings import Config
 from db.store import Store
 
 config = Config()
 store = Store()
 os.environ["OLLAMA_HOST"] = config.ollama_host
-detector = NudeDetector(model_path="models/640m.onnx", inference_resolution=640)
-ollama_client = Client(host=config.ollama_host)
+llm_gateway_client = LLMGatewayAdapter(config)
+_detector = None
+_ollama_client = None
+_ollama_client_host = None
+
+
+def _get_detector():
+    global _detector
+    if _detector is None:
+        model_path = Path("models/640m.onnx")
+        if model_path.exists():
+            _detector = NudeDetector(model_path=str(model_path), inference_resolution=640)
+        else:
+            _detector = NudeDetector(inference_resolution=640)
+    return _detector
+
+
+def _get_ollama_client():
+    global _ollama_client, _ollama_client_host
+    current_host = config.ollama_host
+    if _ollama_client is None or _ollama_client_host != current_host:
+        _ollama_client = Client(host=current_host)
+        _ollama_client_host = current_host
+    return _ollama_client
 
 IGNORED_DETECTOR_TERMS = {"face", "feet", "foot"}
 STRONG_EXPLICIT_TERMS = {
@@ -222,7 +247,7 @@ def detect_nudity_in_video(video_id):
                 )
                 repaired_cached_rows += 1
             continue
-        raw = detector.detect(frame["snapshot_path"])
+        raw = _get_detector().detect(frame["snapshot_path"])
         results = _normalize_detector_results(raw)
         signal = _detector_signal(results)
         store.set_nudity_cache(
@@ -340,19 +365,33 @@ def _classify_frame_via_llm(image_path):
     last_content = ""
     parsed = None
     for _ in range(3):
-        response = ollama_client.chat(
-            model=config.VISION_MODEL,
-            format=VISION_JSON_SCHEMA,
-            options={"temperature": 0.0},
-            messages=[
-                {
-                    "role": "user",
-                    "content": VISION_PROMPT,
-                    "images": [str(image_path)],
-                }
-            ],
-        )
-        last_content = response["message"]["content"] or ""
+        if config.USE_LLM_GATEWAY:
+            response = llm_gateway_client.chat(
+                model=config.vision_model,
+                temperature=0.0,
+                messages=[{"role": "user", "content": VISION_PROMPT}],
+                image_path=image_path,
+            )
+            last_content = llm_gateway_client.extract_content(response)
+        else:
+            client = (
+                Client(host=config.ollama_host)
+                if config.OLLAMA_MAX_PARALLEL_CALLS > 1
+                else _get_ollama_client()
+            )
+            response = client.chat(
+                model=config.vision_model,
+                format=VISION_JSON_SCHEMA,
+                options={"temperature": 0.0},
+                messages=[
+                    {
+                        "role": "user",
+                        "content": VISION_PROMPT,
+                        "images": [str(image_path)],
+                    }
+                ],
+            )
+            last_content = response["message"]["content"] or ""
         if not last_content.strip():
             continue
         try:
@@ -385,7 +424,7 @@ def classify_frame(image_path, image_sha256, image_phash):
         2. vision_phash_alias by phash+model (near-duplicate frame within a scene)
         3. Call the model and store both.
     """
-    model = config.VISION_MODEL
+    model = config.vision_model
     cached = store.get_vision_cache(image_sha256, model)
     if cached is not None:
         return {
@@ -430,6 +469,95 @@ def classify_frame(image_path, image_sha256, image_phash):
     return parsed
 
 
+def _parsed_from_cache(cached):
+    return {
+        "summary": cached["summary"],
+        "visible_nudity": bool(cached["visible_nudity"]),
+        "explicit_body_exposure": cached["explicit_exposure"] or "none",
+        "sexual_activity": bool(cached["sexual_activity"]),
+        "intimacy_level": cached["intimacy_level"] or "none",
+        "confidence": float(cached["confidence"] or 0.0),
+        "reason_short": cached["reason"] or "",
+    }
+
+
+def _classify_frames_parallel(video_id, work, max_parallel_calls):
+    model = config.vision_model
+    pending = []
+    seen_sha = set()
+    new_calls = 0
+    provider_label = config.llm_provider_label
+
+    for frame in work:
+        sha = frame["image_sha256"]
+        cached = store.get_vision_cache(sha, model)
+        if cached is not None:
+            continue
+
+        image_phash = frame["image_phash"]
+        if image_phash:
+            aliased = store.get_vision_cache_by_phash(image_phash, model)
+            if aliased is not None:
+                store.set_vision_cache(
+                    image_sha256=sha,
+                    model=model,
+                    parsed=_parsed_from_cache(aliased),
+                    raw=aliased["raw_json"] or "",
+                    image_phash=image_phash,
+                )
+                continue
+
+        if sha in seen_sha:
+            continue
+        seen_sha.add(sha)
+        pending.append(frame)
+
+    if not pending:
+        return new_calls
+
+    max_workers = min(max_parallel_calls, len(pending))
+    logging.info(
+        "Vision %s pass for video %s: %d uncached frame(s), parallelism=%d.",
+        provider_label,
+        video_id,
+        len(pending),
+        max_workers,
+    )
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_frame = {
+            executor.submit(_classify_frame_via_llm, frame["snapshot_path"]): frame
+            for frame in pending
+        }
+        completed = 0
+        total = len(future_to_frame)
+        for future in tqdm(
+            as_completed(future_to_frame),
+            total=total,
+            desc=f"Vision {provider_label}",
+            unit="frame",
+        ):
+            frame = future_to_frame[future]
+            parsed, raw = future.result()
+            store.set_vision_cache(
+                image_sha256=frame["image_sha256"],
+                model=model,
+                parsed=parsed,
+                raw=raw,
+                image_phash=frame["image_phash"],
+            )
+            new_calls += 1
+            completed += 1
+            if completed == total or completed % 10 == 0:
+                logging.info(
+                    "Vision %s progress for video %s: %d/%d frames classified.",
+                    provider_label,
+                    video_id,
+                    completed,
+                    total,
+                )
+    return new_calls
+
+
 def generate_descriptions_for_nude_scenes(video_id):
     mark_scene_representative_frames(video_id)
     scene_numbers = store.get_scene_numbers(video_id)
@@ -451,20 +579,51 @@ def generate_descriptions_for_nude_scenes(video_id):
         logging.info("No representative frames left to classify for video %s.", video_id)
         return
 
+    cached_before = sum(
+        1 for frame in work if store.get_vision_cache(frame["image_sha256"], config.vision_model)
+    )
+    unique_pending = len({frame["image_sha256"] for frame in work}) - cached_before
+    logging.info(
+        "Vision stage for video %s: %d representative frames, %d already cached, about %d unique frame(s) left to classify.",
+        video_id,
+        len(work),
+        cached_before,
+        max(0, unique_pending),
+    )
+
     new_calls = 0
     try:
-        for frame in tqdm(work, desc=f"Vision on {video_id}", unit="frame"):
-            sha = frame["image_sha256"]
-            cached_before = store.get_vision_cache(sha, config.VISION_MODEL)
-            classify_frame(
-                frame["snapshot_path"],
-                sha,
-                frame["image_phash"],
-            )
-            if cached_before is None:
-                # check if we ended up filling the cache via phash alias vs
-                # actually calling the LLM
-                new_calls += 1
+        max_parallel_calls = (
+            config.LLM_GATEWAY_MAX_PARALLEL_CALLS
+            if config.USE_LLM_GATEWAY
+            else config.OLLAMA_MAX_PARALLEL_CALLS
+        )
+        if max_parallel_calls > 1:
+            new_calls = _classify_frames_parallel(video_id, work, max_parallel_calls)
+        else:
+            total = len(work)
+            for index, frame in enumerate(
+                tqdm(work, desc=f"Vision on {video_id}", unit="frame"),
+                start=1,
+            ):
+                sha = frame["image_sha256"]
+                cached_before = store.get_vision_cache(sha, config.vision_model)
+                classify_frame(
+                    frame["snapshot_path"],
+                    sha,
+                    frame["image_phash"],
+                )
+                if cached_before is None:
+                    # check if we ended up filling the cache via phash alias vs
+                    # actually calling the LLM
+                    new_calls += 1
+                if index == total or index % 10 == 0:
+                    logging.info(
+                        "Vision progress for video %s: %d/%d representative frames checked.",
+                        video_id,
+                        index,
+                        total,
+                    )
     except KeyboardInterrupt:
         print("\nInterrupted! Cache so far is already persisted.")
         raise

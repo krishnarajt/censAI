@@ -48,16 +48,32 @@ def match_video_and_subtitles(videos, subtitles):
 
     subtitle_names = [sub.name for sub in subtitles]
     media_files = {}
+    unmatched_videos = []
     for video in videos:
-        best_match, _score, _ = process.extractOne(
-            video.name, subtitle_names, scorer=custom_scorer
-        )
+        if not subtitle_names:
+            media_files[config.video_to_id[video]] = None
+            unmatched_videos.append(video.name)
+            continue
+
+        match = process.extractOne(video.name, subtitle_names, scorer=custom_scorer)
+        if match is None:
+            media_files[config.video_to_id[video]] = None
+            unmatched_videos.append(video.name)
+            continue
+
+        best_match, _score, _ = match
         subtitle = next((s for s in subtitles if s.name == best_match), None)
         media_files[config.video_to_id[video]] = subtitle
+        if subtitle is None:
+            unmatched_videos.append(video.name)
+            continue
         subtitle_names.remove(best_match)
 
-    if len(media_files.keys()) != len(videos):
-        logging.warning("Some videos do not have matching subtitles.")
+    if unmatched_videos:
+        logging.warning(
+            "Some videos do not have matching subtitles: %s",
+            ", ".join(unmatched_videos[:10]),
+        )
     else:
         logging.info("All videos have matching subtitles.")
     return media_files
@@ -110,21 +126,36 @@ def clean_subtitles(video_id, subtitle_path):
     subs = pysrt.open(str(subtitle_path))
 
     try:
-        for sub in tqdm(subs, desc="Cleaning subtitles", unit="sub"):
+        rows = []
+        profane_items = []
+        for sub in tqdm(subs, desc="Scanning subtitles", unit="sub"):
             text = (sub.text or "").strip()
             if not text:
                 continue
             text_hash = util.sha256_text(text)
             profane = bool(st.check_profanity(text))
-            cleaned = pf.clean_text_cached(text, text_hash) if profane else None
+            if profane:
+                profane_items.append((text_hash, text))
+            rows.append(
+                {
+                    "start_ms": sub.start.ordinal,
+                    "end_ms": sub.end.ordinal,
+                    "text": text,
+                    "text_hash": text_hash,
+                    "profanity_present": profane,
+                }
+            )
+
+        cleaned_by_hash = pf.clean_texts_cached(profane_items) if profane_items else {}
+        for row in tqdm(rows, desc="Persisting subtitles", unit="sub"):
             store.insert_subtitle(
                 video_id=video_id,
-                start_ms=sub.start.ordinal,
-                end_ms=sub.end.ordinal,
-                text=text,
-                text_hash=text_hash,
-                cleaned_text=cleaned,
-                profanity_present=profane,
+                start_ms=row["start_ms"],
+                end_ms=row["end_ms"],
+                text=row["text"],
+                text_hash=row["text_hash"],
+                cleaned_text=cleaned_by_hash.get(row["text_hash"]),
+                profanity_present=row["profanity_present"],
             )
     except KeyboardInterrupt:
         print("\nKeyboard interrupt detected. Subtitle progress is already persisted.")

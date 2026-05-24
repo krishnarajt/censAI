@@ -257,6 +257,14 @@ class Store:
         ).fetchone()
         return int(row["n"]) if row else 0
 
+    def count_hashed_frames(self, video_id: int) -> int:
+        row = self.conn.execute(
+            "SELECT COUNT(*) AS n FROM scene_frames "
+            "WHERE video_id = ? AND image_sha256 IS NOT NULL AND image_phash IS NOT NULL",
+            (video_id,),
+        ).fetchone()
+        return int(row["n"]) if row else 0
+
     def upsert_frame(
         self,
         video_id: int,

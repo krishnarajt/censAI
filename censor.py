@@ -18,7 +18,7 @@ def censor(video_id, subtitle_path):
         "2. Cleaning Subtitle File",
         "3. Splitting Video into Scenes",
         "4. Running NudeNet across saved scene frames",
-        "5. Classifying representative frames with a local vision model",
+        "5. Classifying representative frames with the configured vision model",
         "6. Aggregating scene evidence into final censor decisions",
         "7. Muting audio",
         "8. Removing Scenes, Generating final video",

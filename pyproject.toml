@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "ffsubsync>=0.4.29",
     "fpdf>=1.7.2",
+    "httpx>=0.28.1",
     "imagehash>=4.3.2",
     "img2pdf>=0.6.1",
     "nudenet>=3.4.2",
@@ -14,10 +15,13 @@ dependencies = [
     "opencv-python>=4.11.0.86",
     "pandas>=2.3.0",
     "pillow>=11.2.1",
+    "psycopg[binary]>=3.2.9",
     "pysrt>=1.1.2",
+    "python-dotenv>=1.1.0",
     "rapidfuzz>=3.13.0",
     "safetext>=0.1.0",
     "scenedetect[opencv]>=0.6.6",
+    "sqlalchemy>=2.0.41",
     "tqdm>=4.67.1",
     "transformers>=4.52.4",
 ]

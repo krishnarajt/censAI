@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: censai
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/krishnarajt/censAI
+    targetRevision: main
+    path: k3s/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: censai
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

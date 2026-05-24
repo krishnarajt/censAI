@@ -106,6 +106,16 @@ def index_scene_images(video_id):
         )
         return
 
+    existing_frames = store.count_frames(video_id)
+    hashed_frames = store.count_hashed_frames(video_id)
+    if existing_frames == len(images) and hashed_frames == len(images):
+        logging.info(
+            "Frames already indexed for video %s, skipping hash step.",
+            video_id,
+        )
+        assign_scene_numbers_to_subtitles(video_id)
+        return
+
     for image in tqdm(images, desc=f"Hashing frames for {video_id}", unit="frame"):
         try:
             scene_number, image_number, timestamp = map(int, image.stem.split("-"))
