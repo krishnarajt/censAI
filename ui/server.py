@@ -677,10 +677,10 @@ class _RequestHandler(BaseHTTPRequestHandler):
         try:
             path = urlparse(self.path).path
             if path == "/api/scan":
-                from app import scan_media_folder
+                from app import scan_media_folders
 
                 config = Config()
-                result = scan_media_folder(config.MEDIA_FOLDER)
+                result = scan_media_folders(config.MEDIA_FOLDERS)
                 self._send_json({"ok": True, **result})
                 return
 

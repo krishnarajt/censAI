@@ -221,5 +221,5 @@ experimenting/Florence-2-large
 *.sqlite
 test/
 *.csv
-
-.vscode/
+.vs
+.vscode

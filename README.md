@@ -58,7 +58,8 @@ central DB is unavailable. Secrets and DB connection details still stay in env.
 | `CENSAI_MAIN_SQLITE_PATH` | `censai.sqlite3` | Root-level SQLite fallback when `DATABASE_URL` is blank |
 | `DB_SCHEMA` | `censai` | Postgres schema for tracking tables |
 | `CENSAI_RETRY_DELAY_HOURS` | `24` | Rate-limit retry fallback window |
-| `CENSAI_MEDIA_FOLDER` | `/media` | Folder scanned by the long-running pod worker |
+| `CENSAI_MEDIA_FOLDER` | `/media` | Legacy single media root bootstrap value |
+| `CENSAI_MEDIA_FOLDERS` | empty | Optional comma/newline-separated list of media roots to scan |
 
 For local Ollama, start with `CENSAI_OLLAMA_MAX_PARALLEL_CALLS=2` and increase
 only if the machine has enough GPU/RAM headroom. CensAI will submit concurrent
@@ -88,5 +89,13 @@ the configured fallback window.
 The `k3s/` folder contains ArgoCD/kustomize manifests for the long-running pod.
 Runtime secrets are pulled from Vault through External Secrets, matching the
 pattern used by the other homelab apps.
+
+Inside Kubernetes, CensAI only sees container paths, not your NAS's original
+host paths. If your NAS share is mounted into the pod at `/media/tv`, then the
+app config should use `/media/tv`, not something like `/mnt/nas/tv` from the
+NAS itself. For multiple shares, mount each one into the container and set
+`CENSAI_MEDIA_FOLDERS` to a comma-separated list such as
+`/media/tv,/media/movies`. Media roots are env/Vault managed and are not
+editable from the UI config table.
 
 # Running the project

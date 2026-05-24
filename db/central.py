@@ -34,6 +34,8 @@ from config.settings import Config
 
 logger = logging.getLogger(__name__)
 
+HIDDEN_CONFIG_KEYS = {"media_folder", "media_folders"}
+
 
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
@@ -471,7 +473,9 @@ class CentralStore:
         except ValueError:
             return folder
         rel_text = str(rel)
-        return "Media root" if rel_text == "." else rel_text
+        if rel_text == ".":
+            return f"Media root: {media_folder}"
+        return rel_text
 
     def list_configs(self) -> list[dict]:
         if not self.enabled:
@@ -485,6 +489,7 @@ class CentralStore:
                     "updated_at": self._iso(row.updated_at),
                 }
                 for row in rows
+                if row.key not in HIDDEN_CONFIG_KEYS
             ]
 
     def set_config(self, key: str, value: str) -> None:
@@ -493,6 +498,8 @@ class CentralStore:
         cleaned_key = key.strip()
         if not cleaned_key:
             raise ValueError("Config key is required.")
+        if cleaned_key in HIDDEN_CONFIG_KEYS:
+            raise ValueError(f"{cleaned_key} is env-managed and not editable in the UI.")
         with self.session() as db:
             row = db.get(CentralConfig, cleaned_key)
             if row is None:

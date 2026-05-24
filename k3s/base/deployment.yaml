@@ -25,24 +25,11 @@ spec:
           envFrom:
             - secretRef:
                 name: censai-env
-          env:
-            - name: CENSAI_MEDIA_FOLDER
-              value: /media
-            - name: CENSAI_MAIN_SQLITE_PATH
-              value: /app/censai.sqlite3
-            - name: CENSAI_UI_HOST
-              value: 0.0.0.0
-            - name: CENSAI_UI_PORT
-              value: "8000"
-            - name: CENSAI_AUTO_PROCESS_DUE
-              value: "true"
-            - name: CENSAI_RETRY_DELAY_HOURS
-              value: "24"
-            - name: CENSAI_LLM_GATEWAY_MAX_PARALLEL_CALLS
-              value: "3"
           volumeMounts:
-            - name: media
-              mountPath: /media
+            - name: media-shows-1
+              mountPath: /media/krishnaraj/media/media/shows
+            - name: media-shows-2
+              mountPath: /media/krishnaraj/media2/media/shows
           livenessProbe:
             httpGet:
               path: /health
@@ -65,6 +52,11 @@ spec:
               cpu: "4"
               memory: "8Gi"
       volumes:
-        - name: media
-          persistentVolumeClaim:
-            claimName: censai-media
+        - name: media-shows-1
+          hostPath:
+            path: /media/krishnaraj/media/media/shows
+            type: Directory
+        - name: media-shows-2
+          hostPath:
+            path: /media/krishnaraj/media2/media/shows
+            type: Directory

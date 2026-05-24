@@ -113,8 +113,50 @@ def scan_media_folder(media_folder_path: str, strength: str | None = None) -> di
         "videos": len(videos),
         "subtitles": len(subtitles),
         "matched": len(config.video_and_subtitle_files),
+        "media_folder": str(config.media_folder_path),
         "central_db_enabled": central.enabled,
         "database_backend": central.backend_label,
+    }
+
+
+def scan_media_folders(media_folder_paths: list[str], strength: str | None = None) -> dict:
+    """Scan one or more media roots and return an aggregate summary."""
+    normalized: list[str] = []
+    seen: set[str] = set()
+    for raw_path in media_folder_paths:
+        cleaned = str(raw_path).strip()
+        if not cleaned:
+            continue
+        key = str(Path(cleaned).expanduser().resolve())
+        if key in seen:
+            continue
+        seen.add(key)
+        normalized.append(cleaned)
+
+    total_videos = 0
+    total_subtitles = 0
+    total_matched = 0
+    scans: list[dict] = []
+    for media_folder_path in normalized:
+        result = scan_media_folder(media_folder_path, strength=strength)
+        total_videos += int(result["videos"])
+        total_subtitles += int(result["subtitles"])
+        total_matched += int(result["matched"])
+        scans.append(result)
+
+    config = Config()
+    central = _central_store()
+    return {
+        "media_folders": [str(Path(path).expanduser().resolve()) for path in normalized],
+        "scans": scans,
+        "videos": total_videos,
+        "subtitles": total_subtitles,
+        "matched": total_matched,
+        "central_db_enabled": central.enabled,
+        "database_backend": central.backend_label,
+        "llm_provider": config.llm_provider_label,
+        "vision_model": config.vision_model,
+        "profanity_model": config.profanity_model,
     }
 
 

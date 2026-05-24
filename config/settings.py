@@ -40,6 +40,15 @@ def _get_float(name: str, default: float) -> float:
         return default
 
 
+def _split_media_folders(value: str) -> list[str]:
+    paths: list[str] = []
+    for raw in value.replace(";", "\n").replace(",", "\n").splitlines():
+        cleaned = raw.strip()
+        if cleaned:
+            paths.append(cleaned)
+    return paths
+
+
 def _get_database_url() -> str:
     configured = (os.environ.get("DATABASE_URL") or "").strip()
     if configured:
@@ -105,6 +114,7 @@ class Config:
 
     # Long-running pod/UI defaults.
     _ENV_MEDIA_FOLDER = os.environ.get("CENSAI_MEDIA_FOLDER", "/media")
+    _ENV_MEDIA_FOLDERS = os.environ.get("CENSAI_MEDIA_FOLDERS", "").strip()
     _ENV_UI_HOST = os.environ.get("CENSAI_UI_HOST", "0.0.0.0")
     _ENV_UI_PORT = _get_int("CENSAI_UI_PORT", 8000)
     _ENV_AUTO_PROCESS_DUE = _get_bool("CENSAI_AUTO_PROCESS_DUE", True)
@@ -203,7 +213,6 @@ class Config:
 
     def central_config_defaults(self) -> dict[str, str]:
         return {
-            "media_folder": self._ENV_MEDIA_FOLDER,
             "ui_host": self._ENV_UI_HOST,
             "ui_port": str(self._ENV_UI_PORT),
             "auto_process_due": str(self._ENV_AUTO_PROCESS_DUE).lower(),
@@ -368,7 +377,18 @@ class Config:
 
     @property
     def MEDIA_FOLDER(self) -> str:
-        return self._runtime_value("media_folder", self._ENV_MEDIA_FOLDER)
+        folders = self.MEDIA_FOLDERS
+        if folders:
+            return folders[0]
+        return self._ENV_MEDIA_FOLDER
+
+    @property
+    def MEDIA_FOLDERS(self) -> list[str]:
+        configured = self._ENV_MEDIA_FOLDERS or self._ENV_MEDIA_FOLDER
+        folders = _split_media_folders(configured)
+        if folders:
+            return folders
+        return [self._ENV_MEDIA_FOLDER]
 
     @property
     def UI_HOST(self) -> str:

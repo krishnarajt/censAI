@@ -46,7 +46,7 @@ class RetryWorker:
 
     def _run(self) -> None:
         try:
-            from app import process_video_path, scan_media_folder
+            from app import process_video_path, scan_media_folders
         except Exception as exc:  # noqa: BLE001
             logger.critical(
                 "Retry worker could not import the processing pipeline: %s",
@@ -57,7 +57,7 @@ class RetryWorker:
 
         while not self._stop.is_set():
             try:
-                scan_media_folder(self.config.MEDIA_FOLDER)
+                scan_media_folders(self.config.MEDIA_FOLDERS)
                 job = self.central.claim_next_due_video()
                 if job is None:
                     self._sleep()
