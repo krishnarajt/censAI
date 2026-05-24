@@ -14,10 +14,13 @@ spec:
       labels:
         app: censai
     spec:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
       terminationGracePeriodSeconds: 60
       containers:
         - name: app
-          image: ghcr.io/krishnarajt/censai:git-6676084520fa676a8d25a5373a2c3a61537f372a
+          image: ghcr.io/krishnarajt/censai:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
