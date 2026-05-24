@@ -27,9 +27,9 @@ spec:
                 name: censai-env
           volumeMounts:
             - name: media-shows-1
-              mountPath: /media/krishnaraj/media/media/shows
+              mountPath: /media-shows-1
             - name: media-shows-2
-              mountPath: /media/krishnaraj/media2/media/shows
+              mountPath: /media-shows-2
           livenessProbe:
             httpGet:
               path: /health
