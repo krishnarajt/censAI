@@ -20,7 +20,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
         - name: app
-          image: ghcr.io/krishnarajt/censai:git-cc9f174811dd8f95ccb3752cf7fbd8cba9aaba53
+          image: ghcr.io/krishnarajt/censai:git-57c225da78e2e795a974af705720c70eb810fb75
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
