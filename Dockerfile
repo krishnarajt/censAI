@@ -14,7 +14,10 @@ WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY uv.lock* ./
 
-RUN uv sync --frozen --no-dev 2>/dev/null || uv sync --no-dev
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential python3-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && uv sync --frozen --no-dev 2>/dev/null || uv sync --no-dev
 
 COPY . .
 
