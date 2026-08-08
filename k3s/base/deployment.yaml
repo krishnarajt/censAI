@@ -14,25 +14,32 @@ spec:
       labels:
         app: censai
     spec:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+
       terminationGracePeriodSeconds: 60
+
       containers:
         - name: app
-          image: ghcr.io/krishnarajt/censai:git-17744f2debf643546ec9ff9e68bdea00b885578c
+          image: ghcr.io/krishnarajt/censai:git-57c225da78e2e795a974af705720c70eb810fb75
           imagePullPolicy: Always
+
           ports:
             - containerPort: 8000
               name: http
+
           envFrom:
             - secretRef:
                 name: censai-env
+
           volumeMounts:
             - name: media-shows-1
               mountPath: /media-shows-1
             - name: media-shows-2
               mountPath: /media-shows-2
+
           livenessProbe:
             httpGet:
               path: /health
@@ -40,6 +47,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
+
           readinessProbe:
             httpGet:
               path: /ready
@@ -47,6 +55,7 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 5
+
           resources:
             requests:
               cpu: "500m"
@@ -54,11 +63,13 @@ spec:
             limits:
               cpu: "4"
               memory: "8Gi"
+
       volumes:
         - name: media-shows-1
           hostPath:
             path: /media/krishnaraj/media/media/shows
             type: Directory
+
         - name: media-shows-2
           hostPath:
             path: /media/krishnaraj/media2/media/shows
